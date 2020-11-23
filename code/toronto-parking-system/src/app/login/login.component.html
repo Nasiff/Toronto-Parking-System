@@ -1,0 +1,52 @@
+<div class="login-container">
+    <div class="patron-login-form" *ngIf="loginUserType == 'Patron'">
+        <h2 class="login-header">
+            {{ loginUserType }} Login
+        </h2>
+        <form [formGroup]="patronLoginForm" (ngSubmit)="onSubmit(patronLoginForm.value)">
+            <label for="username">
+                USERNAME
+            </label>
+            <input id="username" type="text" formControlName="username">
+    
+            <label for="password">
+                PASSWORD
+            </label>
+            <input type="password" formControlName="password">
+
+            <br>
+            <button type="submit">Login</button>
+        </form>
+
+        <p>Not a Patron? Click <a (click)="switchToEnforcerForm()">here</a></p>
+    </div>
+
+    <div class="enforcer-login-form" *ngIf="loginUserType == 'Enforcer'">
+        <h2 class="login-header">
+            {{ loginUserType }} Login
+        </h2>
+        <form [formGroup]="enforcerLoginForm" (ngSubmit)="onSubmit(enforcerLoginForm.value)">
+            <label for="username">
+                USERNAME
+            </label>
+            <input id="username" type="text" formControlName="username">
+    
+            <label for="password">
+                PASSWORD
+            </label>
+            <input type="password" formControlName="password">
+
+            <br>
+            <button type="submit">Login</button>
+        </form>
+
+        <p>Not an Enforcer? Click <a (click)="switchToPatronForm()">here</a></p>
+    </div>
+
+    <p>
+        If you don't already have an account, Register
+        <a title="Go to the registration page" [routerLink]="['/register']">
+            here
+        </a>
+    </p>
+</div>
