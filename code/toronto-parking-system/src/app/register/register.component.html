@@ -1,0 +1,76 @@
+<div class="reg-container">
+    <div class="patron-reg-form" *ngIf="registerUserType == 'Patron'">
+        <h2 class="reg-header">
+            {{ registerUserType }} Registration
+        </h2>
+        <form [formGroup]="patronRegForm" (ngSubmit)="onSubmit(patronRegForm.value)">
+            <label for="email">
+                EMAIL
+            </label>
+            <input id="email" type="text" formControlName="email">
+
+            <label for="username">
+                USERNAME
+            </label>
+            <input id="username" type="text" formControlName="username">
+    
+            <label for="password">
+                PASSWORD
+            </label>
+            <input type="password" formControlName="password">
+
+            <label for="license">
+                LICENSE PLATE NUMBER
+            </label>
+            <input id="license" type="text" formControlName="license">
+
+            <label for="vehicleName">
+                VEHICLE NAME
+            </label>
+            <input id="vehicleName" type="text" formControlName="vehicleName">
+
+            <br>
+            <button type="submit">Register</button>
+        </form>
+
+        <p>Not a Patron? Click <a (click)="switchToEnforcerForm()">here</a></p>
+    </div>
+
+    <div class="enforcer-reg-form" *ngIf="registerUserType == 'Enforcer'">
+        <h2 class="reg-header">
+            {{ registerUserType }} Registration
+        </h2>
+        <form [formGroup]="enforcerRegForm" (ngSubmit)="onSubmit(enforcerRegForm.value)">
+            <label for="email">
+                EMAIL
+            </label>
+            <input id="email" type="text" formControlName="email">
+
+            <label for="username">
+                USERNAME
+            </label>
+            <input id="username" type="text" formControlName="username">
+    
+            <label for="password">
+                PASSWORD
+            </label>
+            <input type="password" formControlName="password">
+
+            <label for="badge">
+                BADGE NUMBER
+            </label>
+            <input id="badge" type="text" formControlName="badge">
+
+            <br>
+            <button type="submit">Register</button>
+        </form>
+
+        <p>Not an Enforcer? Click <a (click)="switchToPatronForm()">here</a></p>
+    </div>
+    <p>
+        If you already have an account, Login
+        <a title="Go to the login page" [routerLink]="['/']">
+            here
+        </a>
+    </p>
+</div>
