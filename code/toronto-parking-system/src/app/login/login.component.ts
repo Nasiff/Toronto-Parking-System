@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
       }
       case 'Enforcer': {
         try {
-          console.log(this.userService.loginEnforcer(formData.username, formData.password));
+          this.userService.loginEnforcer(formData.username, formData.password);
           // Navigate to Enforcer Component here
         } catch (error) {
           alert('Enforcer: ' + error)
