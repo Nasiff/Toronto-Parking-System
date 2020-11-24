@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -14,7 +15,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
     ) {
     // Default login type is of a patron's
     this.loginUserType = 'Patron';
@@ -46,7 +48,8 @@ export class LoginComponent implements OnInit {
     switch(this.loginUserType) {
       case 'Patron': {
         try {
-          console.log(this.userService.loginPatron(formData.username, formData.password));
+          this.userService.loginPatron(formData.username, formData.password);
+          // Navigate to Patron Component here
         } catch (error) {
           alert('Patron: ' + error)
         }
@@ -56,6 +59,7 @@ export class LoginComponent implements OnInit {
       case 'Enforcer': {
         try {
           console.log(this.userService.loginEnforcer(formData.username, formData.password));
+          // Navigate to Enforcer Component here
         } catch (error) {
           alert('Enforcer: ' + error)
         }
