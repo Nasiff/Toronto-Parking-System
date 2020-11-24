@@ -115,6 +115,9 @@
                             VEHICLE MAKE
                         </label>
                         <input id="vehicleMake" type="text" formControlName="vehicleMake">
+                        <div *ngIf="getValidity(0).invalid && getValidity(0).touched" class="error-field">
+                            All Vehicle specific fields are required!
+                        </div>
                     </div>
                 
                     <div class="form-row-element">
@@ -169,8 +172,12 @@
             </div>
 
             <br>
-            <button type="submit" [disabled]="patronRegForm.invalid">
-                Register <span class="loader"></span>
+            <button 
+                type="submit" 
+                [disabled]="patronRegForm.invalid" 
+                title="Complete form to enable button">
+                Register 
+                <span class="loader"></span>
             </button>
         </form>
 

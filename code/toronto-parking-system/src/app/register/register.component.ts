@@ -73,9 +73,9 @@ export class RegisterComponent implements OnInit {
 
   addVehicleLabels() {
     const labels = this.formBuilder.group({
-      vehicleMake: "",
-      vehicleModel: "",
-      license: ""
+      vehicleMake: ["", Validators.required],
+      vehicleModel: ["", Validators.required],
+      license: ["", [Validators.required, Validators.minLength(6)]]
     });
 
     this.vehicleLabels.push(labels);
@@ -97,6 +97,10 @@ export class RegisterComponent implements OnInit {
 
   deleteVehicleLables(i) {
     this.vehicleLabels.removeAt(i);
+  }
+
+  getValidity(i) {
+    return this.vehicleLabels.controls[i];
   }
 
   switchToPatronForm() {
