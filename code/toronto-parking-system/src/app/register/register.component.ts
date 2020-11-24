@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -8,34 +9,95 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  registerUserType;
-  patronRegForm;
-  enforcerRegForm;
+  patronRegForm: FormGroup;
+  enforcerRegForm: FormGroup;
+  registerUserType: String;
+
+  loading: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
     ) {
     // Default reg type is of a patron's
     this.registerUserType = 'Patron';
 
     this.patronRegForm = this.formBuilder.group({
-      email: '',
-      username: '',
-      password: '',
-      license: '',
-      vehicleName: ''
+      email: ["", [Validators.required, Validators.email]],
+      name: ["", Validators.required],
+      surname: ["", Validators.required],
+      username: ["", [Validators.required, Validators.minLength(6)]],
+      phone: ["", [Validators.required, Validators.minLength(10)]],
+      password: ["", [
+        Validators.required,
+        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')
+      ]],
+      address: ["", Validators.required],
+      city: ["", Validators.required],
+      province: ["", [Validators.required, Validators.minLength(2)]],
+      postalCode: ["", [Validators.required, Validators.minLength(6)]],
+      vehicles: this.formBuilder.array([]),
+      security1: ["", Validators.required],
+      answer1: ["", Validators.required],
+      security2: ["", Validators.required],
+      answer2: ["", Validators.required],
     });
 
     this.enforcerRegForm = this.formBuilder.group({
-      email: '',
-      username: '',
-      password: '',
-      badge: ''
+      email: ["", [Validators.required, Validators.email]],
+      name: ["", Validators.required],
+      surname: ["", Validators.required],
+      username: ["", [Validators.required, Validators.minLength(6)]],
+      phone: ["", [Validators.required, Validators.minLength(10)]],
+      password: ["", [
+        Validators.required,
+        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')
+      ]],
+      badge: ["", [Validators.min(10000000), Validators.min(99999999)]],
+      security1: ["", Validators.required],
+      answer1: ["", Validators.required],
+      security2: ["", Validators.required],
+      answer2: ["", Validators.required]
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    // Add the first set of vehicle labels on startup
+    this.addVehicleLabels();
+  }
+
+  get vehicleLabels() {
+    return this.patronRegForm.get('vehicles') as FormArray
+  }
+
+  addVehicleLabels() {
+    const labels = this.formBuilder.group({
+      vehicleMake: "",
+      vehicleModel: "",
+      license: ""
+    });
+
+    this.vehicleLabels.push(labels);
+  }
+
+  /**
+   * Quick access to the controls on the patron registration form
+   */
+  get prf() {
+    return this.patronRegForm.controls;
+  }
+
+  /**
+   * Quick access to the controls on the patron registration form
+   */
+  get erf() {
+    return this.enforcerRegForm.controls;
+  }
+
+  deleteVehicleLables(i) {
+    this.vehicleLabels.removeAt(i);
+  }
 
   switchToPatronForm() {
     this.registerUserType = 'Patron'
@@ -49,11 +111,29 @@ export class RegisterComponent implements OnInit {
   onSubmit(formData) {
     switch(this.registerUserType) {
       case 'Patron': {
-        console.log(formData)
+        try {
+          this.loading = true;
+          this.userService.addPatron(formData);
+          alert("You have registered successfully!");
+          this.router.navigate(["/"]); // Navigate to login
+        } catch (error) {
+          alert("Patron: " + error);
+          this.loading = false;
+        }
+        this.loading = false;
+
         break;
       }
       case 'Enforcer': {
-        console.log(formData)
+        try {
+          this.loading = true;
+          this.userService.addEnforcer(formData);
+          alert("You have registered successfully!")
+          this.router.navigate(["/"]) // Navigate to login
+        } catch (error) {
+          alert("Enforcer: " + error);
+        }
+
         break;
       }
       default: {

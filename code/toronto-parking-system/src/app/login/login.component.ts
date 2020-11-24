@@ -45,11 +45,20 @@ export class LoginComponent implements OnInit {
   onSubmit(formData) {
     switch(this.loginUserType) {
       case 'Patron': {
-        console.log(formData)
+        try {
+          console.log(this.userService.loginPatron(formData.username, formData.password));
+        } catch (error) {
+          alert('Patron: ' + error)
+        }
+
         break;
       }
       case 'Enforcer': {
-        console.log(formData)
+        try {
+          console.log(this.userService.loginEnforcer(formData.username, formData.password));
+        } catch (error) {
+          alert('Enforcer: ' + error)
+        }
         break;
       }
       default: {

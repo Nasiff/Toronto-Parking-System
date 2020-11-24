@@ -6,14 +6,14 @@ export const environment = {
   production: false,
   firebaseConfig: {
     // ADD IN YOUR OWN FIREBASE CONFIG HERE (Create a project on firebase), DONT USE MINE BELOW
-    // apiKey: "AIzaSyAN1yZpahGRicFTsfG_m-Z13JaNv1jWi4E",
-    // authDomain: "eecs4312-to-parking-system.firebaseapp.com",
-    // databaseURL: "https://eecs4312-to-parking-system.firebaseio.com",
-    // projectId: "eecs4312-to-parking-system",
-    // storageBucket: "eecs4312-to-parking-system.appspot.com",
-    // messagingSenderId: "521712077197",
-    // appId: "1:521712077197:web:6cc75674e3580e858ad5c4",
-    // measurementId: "G-NJ0NZW6C0S"
+    apiKey: "AIzaSyAN1yZpahGRicFTsfG_m-Z13JaNv1jWi4E",
+    authDomain: "eecs4312-to-parking-system.firebaseapp.com",
+    databaseURL: "https://eecs4312-to-parking-system.firebaseio.com",
+    projectId: "eecs4312-to-parking-system",
+    storageBucket: "eecs4312-to-parking-system.appspot.com",
+    messagingSenderId: "521712077197",
+    appId: "1:521712077197:web:6cc75674e3580e858ad5c4",
+    measurementId: "G-NJ0NZW6C0S"
   }
 };
 
