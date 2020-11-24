@@ -14,7 +14,7 @@ import { HttpClientModule } from '@angular/common/http'
 
 // Firebase
 import { AngularFireModule } from '@angular/fire';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 
@@ -32,7 +32,7 @@ import { environment } from '../environments/environment';
     ReactiveFormsModule,
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFirestoreModule,
+    AngularFireDatabaseModule,
     AngularFireAuthModule,
     RouterModule.forRoot([
       { path: "", component: LoginComponent },
