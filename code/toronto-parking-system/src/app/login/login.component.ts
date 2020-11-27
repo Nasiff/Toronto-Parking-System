@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
       case 'Patron': {
         try {
           this.userService.loginPatron(formData.username, formData.password);
-          // Navigate to Patron Component here
+          this.router.navigateByUrl("/patron");
         } catch (error) {
           alert('Patron: ' + error)
         }
@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
       case 'Enforcer': {
         try {
           this.userService.loginEnforcer(formData.username, formData.password);
-          // Navigate to Enforcer Component here
+          this.router.navigateByUrl("/enforcer");
         } catch (error) {
           alert('Enforcer: ' + error)
         }

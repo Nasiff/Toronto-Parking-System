@@ -17,6 +17,9 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PatronProfileComponent } from './patron/patron-profile/patron-profile.component';
+import { EnforcerProfileComponent } from './enforcer/enforcer-profile/enforcer-profile.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,9 @@ import { environment } from '../environments/environment';
     RegisterComponent,
     EnforcerComponent,
     PatronComponent,
-    TopBarComponent
+    TopBarComponent,
+    PatronProfileComponent,
+    EnforcerProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -36,8 +41,13 @@ import { environment } from '../environments/environment';
     AngularFireAuthModule,
     RouterModule.forRoot([
       { path: "", component: LoginComponent },
-      { path: "register", component: RegisterComponent }
-    ])
+      { path: "register", component: RegisterComponent },
+      { path: "patron", component: PatronComponent },
+      { path: "patron/profile", component: PatronProfileComponent},
+      { path: "enforcer", component: EnforcerComponent },
+      { path: "enforcer/profile", component: EnforcerProfileComponent }
+    ]),
+    BrowserAnimationsModule
   ],
   providers: [
     UserService

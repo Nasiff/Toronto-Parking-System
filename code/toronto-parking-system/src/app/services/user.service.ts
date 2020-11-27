@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { Router } from '@angular/router';
+import { browser } from 'protractor';
 import { EnforcerRegistration } from '../register/EnforcerRegistration';
 import { PatronRegistration } from '../register/PatronRegistration';
 
@@ -15,8 +16,6 @@ export class UserService {
   enforcerPath = "/enforcers"
   enforcerRef: AngularFireList<EnforcerRegistration> = null;
   enforcers = [];
-
-  private currentLoggedInUser = null; // The user that's currently logged in
 
   constructor(
     private database: AngularFireDatabase,
@@ -37,7 +36,9 @@ export class UserService {
       this.patrons = [];
       
       snapshot.forEach(snapshot => {
-        this.patrons.push(snapshot.payload.toJSON());
+        const key = snapshot.key
+        const payload = snapshot.payload.toJSON()
+        this.patrons.push({key, payload});
       });
     });
   }
@@ -50,7 +51,9 @@ export class UserService {
       this.enforcers = [];
       
       snapshot.forEach(snapshot => {
-        this.enforcers.push(snapshot.payload.toJSON());
+        const key = snapshot.key
+        const payload = snapshot.payload.toJSON()
+        this.enforcers.push({key, payload});
       });
     });
   }
@@ -64,18 +67,18 @@ export class UserService {
   loginPatron(username: String, password: String) {
     let result = null
 
-    this.patrons.forEach((elem: PatronRegistration) => {
-      if (elem.username === username) {
+    this.patrons.forEach((elem) => {
+      if (elem.payload.username === username) {
         result = elem;
       }
     });
 
     if (result === null) {
-      throw new Error("Patron with username: " + username + " doesn't exist")
-    } else if (result.password !== password) {
+      throw new Error("Patron with username: " + username + " doesn't exist, Please register an account")
+    } else if (result.payload.password !== password) {
       throw new Error("Username or password is incorrect")
     } else {
-      this.currentLoggedInUser = result;
+      localStorage.setItem("user", JSON.stringify(result)) // Set the user in the session
 
       return result
     }
@@ -89,35 +92,35 @@ export class UserService {
   loginEnforcer(username: String, password: String) {
     let result = null
 
-    this.enforcers.forEach((elem: EnforcerRegistration) => {
-      if (elem.username === username) {
+    this.enforcers.forEach((elem) => {
+      if (elem.payload.username === username) {
         result = elem;
       }
     });
 
     if (result === null) {
-      throw new Error("Enforcer with username: " + username + " doesn't exist")
-    } else if (result.password !== password) {
+      throw new Error("Enforcer with username: " + username + " doesn't exist, Please register an account")
+    } else if (result.payload.password !== password) {
       throw new Error("Username or password is incorrect")
     } else {
-      this.currentLoggedInUser = result;
+      localStorage.setItem("user", JSON.stringify(result)) // Set the user in the session
 
       return result;
     }
   }
 
   /**
-   * Get the details of the user that's currently logged in
+   * Get the JSON representation of the user that's currently logged in
    */
   getCurrentLoggedInUser() {
-    return this.currentLoggedInUser;
+    return JSON.parse(localStorage.getItem("user"));
   }
 
   /**
    * Logs out of the session and goes back to the login page
    */
   logout() {
-    this.currentLoggedInUser = null;
+    localStorage.removeItem("user"); // Clear the user from the session.
     this.router.navigate(["/"]);
   }
 
@@ -128,9 +131,34 @@ export class UserService {
    * @param formData 
    */
   addPatron(formData: PatronRegistration) {
-    this.validateWithPatronDB(formData);
+    this.validatePatronCreate(formData);
 
-    this.patronRef.push(formData)
+    this.patronRef.push(formData);
+    this.getAllPatrons();
+  }
+
+  /**
+   * Update the current logged in patron with new data
+   * 
+   * @param formData 
+   */
+  updatePatron(formData) {
+    const id = this.getCurrentLoggedInUser().key;
+    formData = JSON.parse(JSON.stringify(formData));
+    this.patronRef.update(id, formData);
+    this.getAllPatrons();
+  }
+
+  /**
+   * Delete the details associated with the patron that's currently logged in.
+   * 
+   * @param formData 
+   */
+  deletePatron() {
+    const id = this.getCurrentLoggedInUser().key
+    this.database.list('/patrons/' + id).remove();
+    this.getAllPatrons();
+    this.logout();
   }
 
   /**
@@ -146,12 +174,36 @@ export class UserService {
   }
 
   /**
+   * Update the current logged in enforcer with new data
+   * 
+   * @param formData 
+   */
+  updateEnforcer(formData) {
+    const id = this.getCurrentLoggedInUser().key;
+    formData = JSON.parse(JSON.stringify(formData));
+    this.enforcerRef.update(id, formData);
+    this.getAllEnforcers();
+  }
+
+  /**
+   * Delete the account associated with the enforcer that's currently logged in.
+   * 
+   * @param formData 
+   */
+  deleteEnforcer() {
+    const id = this.getCurrentLoggedInUser().key
+    this.database.list('/enforcers/' + id).remove();
+    this.getAllEnforcers();
+    this.logout();
+  }
+
+  /**
    * Validate the incoming patron form data with the data that already exists
    * on the db. Checks if the email and/or usernames are already used.
    * 
    * @param formData 
    */
-  private validateWithPatronDB(formData: PatronRegistration) {
+  private validatePatronCreate(formData: PatronRegistration) {
     this.patrons.forEach((element: PatronRegistration) => {
       if (element.email == formData.email) {
         throw new Error("Email already exists")
