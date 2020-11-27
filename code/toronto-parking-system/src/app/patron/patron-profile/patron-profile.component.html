@@ -1,9 +1,9 @@
 <div class="reg-container">
-    <div class="patron-reg-form" *ngIf="registerUserType == 'Patron'">
+    <div class="patron-reg-form">
         <h2 class="reg-header">
-            <strong>{{ registerUserType }} Registration</strong>
+            <strong>Edit Profile</strong>
         </h2>
-        <form [formGroup]="patronRegForm" (ngSubmit)="onSubmit(patronRegForm.value)">
+        <form [formGroup]="patronProfile" (ngSubmit)="onSave(patronProfile.value)">
             <div class="form-row">
                 <div class="form-row-element">
                     <label for="email">
@@ -41,7 +41,12 @@
                     <label for="username">
                         USERNAME
                     </label>
-                    <input id="username" type="text" formControlName="username">
+                    <input 
+                        id="username" 
+                        type="text" 
+                        formControlName="username" 
+                        disabled=true
+                        title="Can't change username">
                     <div *ngIf="prf.username.invalid && prf.username.touched" class="error-field">
                         User is required! Length must be 6!
                     </div>
@@ -71,7 +76,7 @@
             <label for="address">
                 STREET ADDRESS
             </label>
-            <input type="address" formControlName="address" style="width: 89.4%;">
+            <input type="address" formControlName="address" style="width: 100%;" >
             <div *ngIf="prf.address.invalid && prf.address.touched" class="error-field">
                 Address is required!
             </div>
@@ -108,7 +113,61 @@
                 </div>
             </div>
 
-            <div formArrayName="vehicles">
+            <div class="form-row">
+                <div class="form-row-element">
+                    <label for="paymentType">
+                        PAYMENT TYPE
+                    </label>
+                    <select class="custom-select" (change)="changePaymentType($event)" formControlName="paymentType">
+                        <option value="" disabled>Choose your payment type</option>
+                        <option *ngFor="let p of paymentOptions" [ngValue]="p">{{p}}</option>
+                     </select>
+                </div>
+            
+                <div class="form-row-element">
+                    <label for="cc">
+                        CARD NUMBER
+                    </label>
+                    <input id="cc" type="number" formControlName="cc">
+                    <div *ngIf="prf.cc.invalid && prf.cc.touched" class="error-field">
+                        Must be 12 digits long!
+                    </div>
+                </div>
+
+                <div class="form-row-element">
+                    <label for="ccName">
+                        CARD HOLDER NAME
+                    </label>
+                    <input id="ccName" type="text" formControlName="ccName">
+                    <div *ngIf="prf.ccName.invalid && prf.ccName.touched" class="error-field">
+                        Card holder name is required!
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-row-element">
+                    <label for="ccExpiry">
+                        EXPIRY DATE
+                    </label>
+                    <input id="ccExpiry" type="text" formControlName="ccExpiry">
+                    <div *ngIf="prf.ccExpiry.invalid && prf.ccExpiry.touched" class="error-field">
+                        Must be 5 digits long!
+                    </div>
+                </div>
+            
+                <div class="form-row-element">
+                    <label for="ccCode">
+                        SECURITY CODE
+                    </label>
+                    <input id="ccCode" type="text" formControlName="ccCode">
+                    <div *ngIf="prf.ccCode.invalid && prf.ccCode.touched" class="error-field">
+                        Must be 3 digits long!
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div formArrayName="vehicles">
                 <div class="form-row" *ngFor="let v of vehicleLabels.controls; let i=index" [formGroupName]="i">
                     <div class="form-row-element">
                         <label for="vehicleMake">
@@ -137,12 +196,12 @@
                     <input id="del-vehicle-btn" type="button" value="Del" *ngIf="i !== 0" (click)="deleteVehicleLables(i)">
                     <input id="add-vehicle-btn" type="button" value="Add" *ngIf="i == 0" (click)="addVehicleLabels()">
                 </div>
-            </div>
+            </div> -->
 
             <label for="security1">
                 SECURITY QUESTION 1
             </label>
-            <input id="security1" type="text" formControlName="security1" style="width: 89.4%;">
+            <input id="security1" type="text" formControlName="security1" style="width: 100%;">
             <div *ngIf="prf.security1.invalid && prf.security1.touched" class="error-field">
                 This field is required!
             </div>
@@ -158,7 +217,7 @@
             <label for="security2">
                 SECURITY QUESTION 2
             </label>
-            <input id="security2" type="text" formControlName="security2" style="width: 89.4%;">
+            <input id="security2" type="text" formControlName="security2" style="width: 100%;">
             <div *ngIf="prf.security2.invalid && prf.security2.touched" class="error-field">
                 This field is required!
             </div>
@@ -172,141 +231,27 @@
             </div>
 
             <br>
-            <button 
-                type="submit" 
-                [disabled]="patronRegForm.invalid" 
-                title="Complete form to enable button">
-                Register 
-                <span class="loader"></span>
-            </button>
+            <div class="profile-btn-group">
+                <button 
+                    type="submit" 
+                    title="Complete form to enable button"
+                    [disabled]="patronProfile.invalid"
+                    (click)="onSave()">
+                    Save Changes
+                    <span class="loader"></span>
+                </button>
+
+                <input 
+                    type="button"
+                    value="Reset Changes"
+                    (click)="initForm()"/>
+
+                <input 
+                    id="delete-account-btn"
+                    type="button"
+                    value="Delete Account"
+                    (click)="onDelete()"/>
+            </div>
         </form>
-
-        <p>Not a Patron? Click <a (click)="switchToEnforcerForm()">here</a></p>
     </div>
-
-    <div class="enforcer-reg-form" *ngIf="registerUserType == 'Enforcer'">
-        <h2 class="reg-header">
-            <strong>{{ registerUserType }} Registration</strong>
-        </h2>
-        <form [formGroup]="enforcerRegForm" (ngSubmit)="onSubmit(enforcerRegForm.value)">
-            <div class="form-row">
-                <div class="form-row-element">
-                    <label for="email">
-                        EMAIL
-                    </label>
-                    <input id="email" type="text" formControlName="email">
-                    <div *ngIf="erf.email.invalid && erf.email.touched" class="error-field">
-                        Please enter a valid email address!
-                    </div>
-                </div>
-            
-                <div class="form-row-element">
-                    <label for="name">
-                        FIRST NAME
-                    </label>
-                    <input id="name" type="text" formControlName="name">
-                    <div *ngIf="erf.name.invalid && erf.name.touched" class="error-field">
-                        Name is required!
-                    </div>
-                </div>
-            
-                <div class="form-row-element">
-                    <label for="surname">
-                        SURNAME
-                    </label>
-                    <input id="surname" type="text" formControlName="surname">
-                    <div *ngIf="erf.name.invalid && erf.name.touched" class="error-field">
-                        Surname is required!
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-row-element">
-                    <label for="username">
-                        USERNAME
-                    </label>
-                    <input id="username" type="text" formControlName="username">
-                    <div *ngIf="erf.username.invalid && erf.username.touched" class="error-field">
-                        User is required! Length must be 6!
-                    </div>
-                </div>
-            
-                <div class="form-row-element">
-                    <label for="phone">
-                        PHONE
-                    </label>
-                    <input id="phone" type="number" formControlName="phone">
-                    <div *ngIf="erf.phone.invalid && erf.phone.touched" class="error-field">
-                        Phone is required!
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-row-element">
-                    <label for="password">
-                        PASSWORD
-                    </label>
-                    <input type="password" formControlName="password">
-                    <div *ngIf="erf.password.invalid && erf.password.touched" class="error-field">
-                        Password should have 1 upper, 1 lower, 1 number and have at least 8 characters
-                    </div>
-                </div>
-            
-                <div class="form-row-element">
-                    <label for="badge">
-                        BADGE NUMBER
-                    </label>
-                    <input id="badge" type="number" formControlName="badge">
-                    <div *ngIf="erf.badge.invalid && erf.badge.touched" class="error-field">
-                        Badge is required! Length must be exactly 8!
-                    </div>
-                </div>
-            </div>
-
-            <label for="security1">
-                SECURITY QUESTION 1
-            </label>
-            <input id="security1" type="text" formControlName="security1" style="width: 89.4%;">
-            <div *ngIf="erf.security1.invalid && erf.security1.touched" class="error-field">
-                This field is required!
-            </div>
-
-            <label for="answer1">
-                ANSWER 1
-            </label>
-            <input id="answer1" type="text" formControlName="answer1">
-            <div *ngIf="erf.answer1.invalid && erf.answer1.touched" class="error-field">
-                This field is required!
-            </div>
-
-            <label for="security2">
-                SECURITY QUESTION 2
-            </label>
-            <input id="security2" type="text" formControlName="security2" style="width: 89.4%;">
-            <div *ngIf="erf.security2.invalid && erf.security2.touched" class="error-field">
-                This field is required!
-            </div>
-
-            <label for="answer2">
-                ANSWER 2
-            </label>
-            <input id="answer2" type="text" formControlName="answer2">
-            <div *ngIf="erf.answer2.invalid && erf.answer2.touched" class="error-field">
-                This field is required!
-            </div>
-
-            <br>
-            <button type="submit" [disabled]="enforcerRegForm.invalid">Register</button>
-        </form>
-
-        <p>Not an Enforcer? Click <a (click)="switchToPatronForm()">here</a></p>
-    </div>
-    <p>
-        If you already have an account, Login
-        <a title="Go to the login page" [routerLink]="['/']">
-            here
-        </a>
-    </p>
 </div>

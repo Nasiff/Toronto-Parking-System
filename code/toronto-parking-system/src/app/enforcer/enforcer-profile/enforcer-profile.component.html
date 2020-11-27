@@ -1,0 +1,137 @@
+<div class="reg-container">
+    <div class="patron-reg-form">
+        <h2 class="reg-header">
+            <strong>Edit Profile</strong>
+        </h2>
+        <form [formGroup]="enforcerProfile" (ngSubmit)="onSave(enforcerProfile.value)">
+            <div class="form-row">
+                <div class="form-row-element">
+                    <label for="email">
+                        EMAIL
+                    </label>
+                    <input id="email" type="text" formControlName="email">
+                    <div *ngIf="erf.email.invalid && erf.email.touched" class="error-field">
+                        Please enter a valid email address!
+                    </div>
+                </div>
+            
+                <div class="form-row-element">
+                    <label for="name">
+                        FIRST NAME
+                    </label>
+                    <input id="name" type="text" formControlName="name">
+                    <div *ngIf="erf.name.invalid && erf.name.touched" class="error-field">
+                        Name is required!
+                    </div>
+                </div>
+            
+                <div class="form-row-element">
+                    <label for="surname">
+                        SURNAME
+                    </label>
+                    <input id="surname" type="text" formControlName="surname">
+                    <div *ngIf="erf.name.invalid && erf.name.touched" class="error-field">
+                        Surname is required!
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-row-element">
+                    <label for="username">
+                        USERNAME
+                    </label>
+                    <input 
+                        id="username" 
+                        type="text" 
+                        formControlName="username" 
+                        disabled=true
+                        title="Can't change username">
+                    <div *ngIf="erf.username.invalid && erf.username.touched" class="error-field">
+                        User is required! Length must be 6!
+                    </div>
+                </div>
+
+                <div class="form-row-element">
+                    <label for="password">
+                        PASSWORD
+                    </label>
+                    <input type="password" formControlName="password">
+                    <div *ngIf="erf.password.invalid && erf.password.touched" class="error-field">
+                        Password should have 1 upper, 1 lower, 1 number and have at least 8 characters
+                    </div>
+                </div>
+            
+                <div class="form-row-element">
+                    <label for="phone">
+                        PHONE
+                    </label>
+                    <input id="phone" type="number" formControlName="phone">
+                    <div *ngIf="erf.phone.invalid && erf.phone.touched" class="error-field">
+                        Phone is required!
+                    </div>
+                </div>
+            </div>
+
+            <label for="badge">
+                BADGE ID
+            </label>
+            <input id="badge" type="text" formControlName="badge" title="Can't change badge ID">
+
+            <label for="security1">
+                SECURITY QUESTION 1
+            </label>
+            <input id="security1" type="text" formControlName="security1" style="width: 100%;">
+            <div *ngIf="erf.security1.invalid && erf.security1.touched" class="error-field">
+                This field is required!
+            </div>
+
+            <label for="answer1">
+                ANSWER 1
+            </label>
+            <input id="answer1" type="text" formControlName="answer1">
+            <div *ngIf="erf.answer1.invalid && erf.answer1.touched" class="error-field">
+                This field is required!
+            </div>
+
+            <label for="security2">
+                SECURITY QUESTION 2
+            </label>
+            <input id="security2" type="text" formControlName="security2" style="width: 100%;">
+            <div *ngIf="erf.security2.invalid && erf.security2.touched" class="error-field">
+                This field is required!
+            </div>
+
+            <label for="answer2">
+                ANSWER 2
+            </label>
+            <input id="answer2" type="text" formControlName="answer2">
+            <div *ngIf="erf.answer2.invalid && erf.answer2.touched" class="error-field">
+                This field is required!
+            </div>
+
+            <br>
+            <div class="profile-btn-group">
+                <button 
+                    type="submit" 
+                    title="Complete form to enable button"
+                    [disabled]="enforcerProfile.invalid"
+                    (click)="onSave()">
+                    Save Changes
+                    <span class="loader"></span>
+                </button>
+
+                <input 
+                    type="button"
+                    value="Reset Changes"
+                    (click)="initForm()"/>
+
+                <input 
+                    id="delete-account-btn"
+                    type="button"
+                    value="Delete Account"
+                    (click)="onDelete()"/>
+            </div>
+        </form>
+    </div>
+</div>

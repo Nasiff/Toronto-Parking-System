@@ -54,7 +54,7 @@ export class RegisterComponent implements OnInit {
         Validators.required,
         Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')
       ]],
-      badge: ["", [Validators.min(10000000), Validators.min(99999999)]],
+      badge: ["", [Validators.min(10000000), Validators.max(99999999)]],
       security1: ["", Validators.required],
       answer1: ["", Validators.required],
       security2: ["", Validators.required],
@@ -117,6 +117,7 @@ export class RegisterComponent implements OnInit {
       case 'Patron': {
         try {
           this.loading = true;
+          this.addAdditionalPatronFields(formData);
           this.userService.addPatron(formData);
           alert("You have registered successfully!");
           this.router.navigate(["/"]); // Navigate to login
@@ -131,6 +132,7 @@ export class RegisterComponent implements OnInit {
       case 'Enforcer': {
         try {
           this.loading = true;
+          this.addAdditionalEnforcerFields(formData);
           this.userService.addEnforcer(formData);
           alert("You have registered successfully!")
           this.router.navigate(["/"]) // Navigate to login
@@ -143,5 +145,20 @@ export class RegisterComponent implements OnInit {
       default: {
       }
     }
+  }
+
+  private addAdditionalPatronFields(formData: any) {
+    formData.userType = 'patron';
+    formData.paymentType = "";
+    formData.cc = "";
+    formData.ccName = "";
+    formData.ccExpiry = "";
+    formData.ccCode = "";
+    // Add any required fields to track patron status as they use the app
+  }
+
+  private addAdditionalEnforcerFields(formData: any) {
+    formData.userType = 'enforcer';
+    // Add any required fields to track enforcer status as they use the app
   }
 }

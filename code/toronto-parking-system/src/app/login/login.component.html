@@ -1,7 +1,7 @@
 <div class="login-container">
     <div class="patron-login-form" *ngIf="loginUserType == 'Patron'">
         <h2 class="login-header">
-            {{ loginUserType }} Login
+            <strong>{{ loginUserType }} Login</strong>
         </h2>
         <form [formGroup]="patronLoginForm" (ngSubmit)="onSubmit(patronLoginForm.value)">
             <label for="username">
@@ -23,7 +23,7 @@
 
     <div class="enforcer-login-form" *ngIf="loginUserType == 'Enforcer'">
         <h2 class="login-header">
-            {{ loginUserType }} Login
+            <strong>{{ loginUserType }} Login</strong>
         </h2>
         <form [formGroup]="enforcerLoginForm" (ngSubmit)="onSubmit(enforcerLoginForm.value)">
             <label for="username">
