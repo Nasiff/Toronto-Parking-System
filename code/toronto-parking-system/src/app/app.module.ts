@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 // search module
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
@@ -37,6 +38,7 @@ import { EnforcerProfileComponent } from './enforcer/enforcer-profile/enforcer-p
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     ReactiveFormsModule,
     Ng2SearchPipeModule,
     HttpClientModule,
