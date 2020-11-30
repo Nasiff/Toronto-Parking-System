@@ -1,1 +1,41 @@
-<p>enforcer works!</p>
+<div class="container text-center">
+    <h1>{{title}}</h1>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="search-hero">
+        <input class="form-control" type="text" name="search" [(ngModel)]="searchRes" autocomplete="off" placeholder="&#61442;  Start searching for a hero by id or name or country">
+      </div>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Distance</th>
+          <th>Address</th>
+          <th>Rate</th>
+          <th>Capacity</th>
+          <th>Spots Available</th>
+          <th>Spots Reserved</th>
+          <th>Spots Unavailable</th>
+          <th>Handicap Spots</th>
+          <th>Parking Lot</th>
+          <th>Edit</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let r of res | filter:searchRes">
+            <td>{{r.distance}}</td>
+            <td>{{r.address}}</td>
+            <td>{{r.rate}}</td>
+            <td>{{r.capacity}}</td>
+            <td>{{r.avail}}</td>
+            <td>{{r.reserve}}</td>
+            <td>{{r.unavail}}</td>
+            <td>{{r.handi}}</td>
+            <td>{{r.p_lot}}</td>
+            <td>Edit Button</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
