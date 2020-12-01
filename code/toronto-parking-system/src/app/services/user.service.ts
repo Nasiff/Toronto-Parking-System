@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { Router } from '@angular/router';
-import { browser } from 'protractor';
 import { EnforcerRegistration } from '../register/EnforcerRegistration';
 import { PatronRegistration } from '../register/PatronRegistration';
 

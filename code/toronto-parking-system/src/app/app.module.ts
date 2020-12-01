@@ -20,6 +20,7 @@ import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PatronProfileComponent } from './patron/patron-profile/patron-profile.component';
 import { EnforcerProfileComponent } from './enforcer/enforcer-profile/enforcer-profile.component';
+import { IncidentListComponent } from './enforcer/incident-list/incident-list.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { EnforcerProfileComponent } from './enforcer/enforcer-profile/enforcer-p
     PatronComponent,
     TopBarComponent,
     PatronProfileComponent,
-    EnforcerProfileComponent
+    EnforcerProfileComponent,
+    IncidentListComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +47,8 @@ import { EnforcerProfileComponent } from './enforcer/enforcer-profile/enforcer-p
       { path: "patron", component: PatronComponent },
       { path: "patron/profile", component: PatronProfileComponent},
       { path: "enforcer", component: EnforcerComponent },
-      { path: "enforcer/profile", component: EnforcerProfileComponent }
+      { path: "enforcer/profile", component: EnforcerProfileComponent },
+      { path: "enforcer/incidents", component: IncidentListComponent }
     ]),
     BrowserAnimationsModule
   ],
