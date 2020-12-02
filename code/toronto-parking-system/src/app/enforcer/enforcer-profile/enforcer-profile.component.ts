@@ -87,8 +87,4 @@ export class EnforcerProfileComponent implements OnInit {
       console.log(error);
     }
   }
-
-  navigateToIncidentList() {
-    this.router.navigateByUrl('enforcer/incidents');
-  }
 }
