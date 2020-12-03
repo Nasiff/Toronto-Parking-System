@@ -29,6 +29,7 @@ app-top-bar {
 .dropdown {
   position: relative;
   display: inline-block;
+  padding-right: 20px;
 }
 
 .dropdown-content {

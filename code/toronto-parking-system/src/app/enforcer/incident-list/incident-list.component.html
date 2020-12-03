@@ -1,0 +1,136 @@
+<div>
+    <h1 class="list-header">Review An Incident Report</h1>
+    <div *ngIf="!selectedIncident" class="incident-list-container">
+        <div class="incident-list-btns">
+            <button (click)="sortByName()">Sort By Name</button>
+            <button (click)="sortByLocation()">Sort By Location</button>
+            <input 
+                #searchbox type="text" 
+                placeholder="Search by ID"
+                >
+            <button (click)="searchById(searchbox.value)">Search
+            </button>
+        </div>
+        <div class="incident-list">
+            <div 
+                class="incident-list-items" 
+                *ngFor="let incident of incidents; let i = index"
+                (click)="openIncidentDetails(incident)"
+            >
+                <p>Incident ID:</p> <p>{{ incident.incidentId }}</p>
+                <p>Name:</p> <p>{{ incident.username }}</p>
+                <p>Parking Lot:</p> <p>{{ incident.parkingId }}</p>
+                <p>Location:</p> <p>{{ incident.location }}</p>
+                <p>Incident Summary:</p> <p>{{ incident.description }}</p>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="selectedIncident">
+        <div class="incident-header">
+            <button (click)="goToIncidentListView()">Go Back To All Incidents</button>
+        </div>
+        <div class="incident-form">
+            <form [formGroup]="incidentForm">
+                <h4>The Patron Who Created The Incident</h4>
+                <div class="form-row">
+                    <div class="form-row-element">
+                        <label for="incidentId">
+                            INCIDENT ID
+                        </label>
+                        <input id="incidentId" type="text" formControlName="incidentId">
+                    </div>
+                
+                    <div class="form-row-element">
+                        <label for="username">
+                            USERNAME
+                        </label>
+                        <input id="username" type="text" formControlName="username">
+                    </div>
+                
+                    <div class="form-row-element">
+                        <label for="lot">
+                            PARKING LOT #
+                        </label>
+                        <input id="lot" type="text" formControlName="lot">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-row-element">
+                        <label for="spot">
+                            PARKING SPOT #
+                        </label>
+                        <input id="spot" type="text" formControlName="spot">
+                    </div>
+                
+                    <div class="form-row-element">
+                        <label for="location">
+                            LOCATION
+                        </label>
+                        <input id="location" type="text" formControlName="location">
+                    </div>
+                
+                    <div class="form-row-element">
+                        <label for="summary">
+                            SUMMARY
+                        </label>
+                        <input id="summary" type="text" formControlName="summary">
+                    </div>
+                </div>
+
+                <h4>Violator's Information</h4>
+
+                <div class="form-row">
+                    <div class="form-row-element">
+                        <label for="make">
+                            VEHICLE MAKE
+                        </label>
+                        <input id="make" type="text" formControlName="make">
+                    </div>
+                
+                    <div class="form-row-element">
+                        <label for="model">
+                            VEHICLE MODEL
+                        </label>
+                        <input id="model" type="text" formControlName="model">
+                    </div>
+
+                    <div class="form-row-element">
+                        <label for="color">
+                            VEHICLE COLOR
+                        </label>
+                        <input id="color" type="text" formControlName="color">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-row-element">
+                        <label for="license">
+                            LICENSE PLATE #
+                        </label>
+                        <input id="license" type="text" formControlName="license">
+                    </div>
+
+                    <div class="form-row-element">
+                        <label for="date">
+                            DATE OF INCIDENT
+                        </label>
+                        <input id="date" type="text" formControlName="date">
+                    </div>
+                
+                    <div class="form-row-element">
+                        <label for="time">
+                            TIME OF INCIDENT
+                        </label>
+                        <input id="time" type="text" formControlName="time">
+                    </div>
+                </div>
+                <br>
+                <div class="profile-btn-group">
+                    <button 
+                        (click)="onReview()">
+                        Finalize Review
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

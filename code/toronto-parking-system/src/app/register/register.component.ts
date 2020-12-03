@@ -54,7 +54,7 @@ export class RegisterComponent implements OnInit {
         Validators.required,
         Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')
       ]],
-      badge: ["", [Validators.min(10000000), Validators.max(99999999)]],
+      badge: ["", [Validators.required, Validators.min(10000000), Validators.max(99999999)]],
       security1: ["", Validators.required],
       answer1: ["", Validators.required],
       security2: ["", Validators.required],
