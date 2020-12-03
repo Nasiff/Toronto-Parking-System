@@ -1,4 +1,6 @@
 import { Component, OnInit, NgModule } from '@angular/core';
+import { EnforcerService } from '../services/enforcer.service';
+import { Subscription } from ‘rxjs’;
 
 @Component({
   selector: 'app-enforcer',
@@ -8,24 +10,19 @@ import { Component, OnInit, NgModule } from '@angular/core';
 export class EnforcerComponent implements OnInit {
 
   searchRes;
-  res = [
-    { 
-      distance: 0.0,
-      address: "123 fuck you",
-      rate: 4.0,
-      capacity: 10,
-      avail: 10,
-      reserve: 10,
-      unavail: 10,
-      handi: 10,
-      p_lot: 10
-    }
-  ]
+  res: any;
 
 
-  constructor() { }
+  constructor(
+    private enfServ: EnforcerService
+  ) {
+
+  }
 
   ngOnInit() {
+    this.enfServ.getAllParkings().subscribe((results) => {
+      this.res = results
+    });
   }
   
 }
