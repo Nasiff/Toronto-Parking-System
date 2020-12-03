@@ -9,29 +9,23 @@
       <table class="table table-striped">
         <thead>
         <tr>
-          <th>Distance</th>
-          <th>Address</th>
-          <th>Rate</th>
-          <th>Capacity</th>
-          <th>Spots Available</th>
-          <th>Spots Reserved</th>
-          <th>Spots Unavailable</th>
-          <th>Handicap Spots</th>
-          <th>Parking Lot</th>
+          <th>address</th>
+          <th>distance</th>
+          <th>isOpen</th>
+          <th>lots</th>
+          <th>parkingId</th>
+          <th>price</th>
           <th>Edit</th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let r of res | filter:searchRes">
-            <td>{{r.distance}}</td>
-            <td>{{r.address}}</td>
-            <td>{{r.rate}}</td>
-            <td>{{r.capacity}}</td>
-            <td>{{r.avail}}</td>
-            <td>{{r.reserve}}</td>
-            <td>{{r.unavail}}</td>
-            <td>{{r.handi}}</td>
-            <td>{{r.p_lot}}</td>
+        <tr *ngFor="let r of enfServ.parkings | filter:searchRes">
+            <td>{{r.payload.address}}</td>
+            <td>{{r.payload.distance}}</td>
+            <td>{{r.payload.isOpen}}</td>
+            <td>{{r.payload.lots}}</td>
+            <td>{{r.payload.parkingId}}</td>
+            <td>{{r.payload.price}}</td>
             <td>Edit Button</td>
         </tr>
         </tbody>

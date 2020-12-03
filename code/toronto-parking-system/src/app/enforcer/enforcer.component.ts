@@ -1,6 +1,6 @@
 import { Component, OnInit, NgModule } from '@angular/core';
 import { EnforcerService } from '../services/enforcer.service';
-import { Subscription } from ‘rxjs’;
+//import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-enforcer',
@@ -20,9 +20,13 @@ export class EnforcerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.enfServ.getAllParkings().subscribe((results) => {
-      this.res = results
-    });
+    //this.enfServ.getAllParkings().subscribe((results) => {
+    //  this.res = results
+    //});
+    this.res = this.enfServ.parkings
+
+    console.log(this.res)
+    console.log(this.enfServ)
   }
   
 }
