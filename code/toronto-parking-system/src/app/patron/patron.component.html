@@ -1,1 +1,54 @@
-<p>patron works!</p>
+<div class="reg-container">
+    <div class="patron-reg-form">
+        <h2 class="reg-header">
+            <strong>Choose A Parking Location</strong>
+        </h2>
+        <form [formGroup]="patron" (ngSubmit)="onSubmit(patron.value)">
+            <div class="form-row">
+                <div class="form-row-element">
+                    <label for="address">
+                        Please Enter a valid address:
+                    </label>
+                    <input type="text" placeholder="Search.." name="search">
+                    <button type="submit">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="patron-reg-form2">
+        <form [formGroup]="patronConfirm" (ngSubmit)="onSubmit(patronConfirm.value)">
+            <div class="form-row2">
+                <table class="center">
+                    <div class="btn-group-sort">
+                        <button (click)="toggleA()">Sort By Distance</button>
+                        <button (click)="toggleB()">Sort By Price</button>
+                    </div>
+                    <div class="btn-group">
+                        <h1>{{locationA}}</h1>
+                        <h1>{{priceA}}</h1>
+                        <h1>{{distanceA}}</h1>
+                        <button (click)="confirmParking()">Confirm Parking</button>
+                        <h1>{{locationB}}</h1>
+                        <h1>{{priceB}}</h1>
+                        <h1>{{distanceB}}</h1>
+                        <button (click)="confirmParking()">Confirm Parking</button>
+                        <h1>{{locationC}}</h1>
+                        <h1>{{priceC}}</h1>
+                        <h1>{{distanceC}}</h1>
+                        <button (click)="confirmParking()">Confirm Parking</button>
+                        <h1>{{locationD}}</h1>
+                        <h1>{{priceD}}</h1>
+                        <h1>{{distanceD}}</h1>
+                        <button (click)="confirmParking()">Confirm Parking</button>
+                        <h1>{{locationE}}</h1>
+                        <h1>{{priceE}}</h1>
+                        <h1>{{distanceE}}</h1>
+                        <button (click)="confirmParking()">Confirm Parking</button>
+                    </div>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+
