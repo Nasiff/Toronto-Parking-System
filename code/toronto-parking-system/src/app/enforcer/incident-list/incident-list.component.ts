@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IncidentService } from 'src/app/services/incident.service';
 
 @Component({
   selector: 'app-incident-list',
@@ -7,72 +8,16 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./incident-list.component.css']
 })
 export class IncidentListComponent implements OnInit {
-  incidents = [
-    {
-      incidentId: 12345,
-      type: "Parking Lot Violation",
-      parkingId: 12345,
-      violatorsVehicle: "Toyota",
-      violatorsModel: "2021",
-      violatorsLicense: "123ABC",
-      violatorsColor: "Red",
-      date: "",
-      time: "",
-      description: "Lol parking",
-      username: "lololol",
-      isRequestingRefund: true,
-      isRefunded: false,
-      isResolved: false,
-      isValid: "",
-      location: "Osgoode",
-      lotId: "43"
-    },
-    {
-      incidentId: 12346,
-      type: "Parking Lot Violation",
-      parkingId: 12345,
-      violatorsVehicle: "Toyota",
-      violatorsModel: "2002",
-      violatorsLicense: "123ABC",
-      violatorsColor: "Red",
-      date: "",
-      time: "",
-      description: "Wrong spot parking",
-      username: "aaaa",
-      isRequestingRefund: true,
-      isRefunded: false,
-      isResolved: false,
-      isValid: "",
-      location: "YorkU",
-      lotId: "87"
-    },    
-    {
-      incidentId: 12347,
-      type: "Parking Lot Violation",
-      parkingId: 12345,
-      violatorsVehicle: "Toyota",
-      violatorsModel: "2010",
-      violatorsLicense: "123ABC",
-      violatorsColor: "Red",
-      date: "",
-      time: "",
-      description: "Disastrous parking",
-      username: "bbbb",
-      isRequestingRefund: true,
-      isRefunded: false,
-      isResolved: false,
-      isValid: "",
-      location: "Lassonde",
-      lotId: "14"
-    }
-  ]
-  
+  incidents = []
   selectedIncident;
   incidentForm: FormGroup;
 
   private incidentsCopy = []
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private incidentSvc: IncidentService
+  ) {
     this.incidentsCopy = this.incidents;
 
     this.incidentForm = this.formBuilder.group({
@@ -89,20 +34,26 @@ export class IncidentListComponent implements OnInit {
       time: ["", Validators.required],
       color: ["", Validators.required],
     });
+
+    this.incidentSvc.getAllIncidents();
+    alert("Loading Incidents...")
+    this.incidents = this.incidentSvc.incidents;
+    this.incidentsCopy = this.incidents;
   }
 
   ngOnInit() {
+    console.log(this.incidents);
   }
 
   sortByName() {
     this.incidents.sort((a, b) => {
-      return this.compareStrings(a.username, b.username);
+      return this.compareStrings(a.payload.username, b.payload.username);
     });
   }
 
   sortByLocation() {
     this.incidents.sort((a, b) => {
-      return this.compareStrings(a.location, b.location);
+      return this.compareStrings(a.payload.location, b.payload.location);
     });
   }
 
@@ -113,7 +64,7 @@ export class IncidentListComponent implements OnInit {
       return this.incidents;
     } else {
       results = this.incidents.filter(elem => {
-        return elem.incidentId + "" === id
+        return elem.key.includes(id);
       });
     }
 
@@ -134,30 +85,33 @@ export class IncidentListComponent implements OnInit {
     const response = prompt("Is the incident report legitimate?\n 'y' for Yes, 'n' for No, Type anything to cancel", "Cancel")
 
     if (response === 'y') {
-      this.selectedIncident.isValid = true;
+      this.selectedIncident.payload.isValid = true;
 
-      if(this.selectedIncident.isRequestingRefund) {
+      if(this.selectedIncident.payload.isRequestingRefund) {
         const refund = confirm("Do you want to issue a refund?");
         if (refund) {
-          this.selectedIncident.isRefunded = true;
+          this.selectedIncident.payload.isRefunded = true;
         } else {
-          this.selectedIncident.isRefunded = false;
+          this.selectedIncident.payload.isRefunded = false;
         }
         this.finalizeReview();
       } 
     } else if (response === 'n') {
-      this.selectedIncident.isValid = false;
+      this.selectedIncident.payload.isValid = false;
       this.finalizeReview();
     }
   }
 
   private finalizeReview() {
-    this.selectedIncident.isResolved = true;
-    this.incidents = this.incidents.filter(elem => {
-      return elem.isResolved == false;
-    });
-    console.log(this.incidents);
-    this.selectedIncident = null;
+    this.selectedIncident.payload.isResolved = true;
+  
+    try {
+      this.incidentSvc.updateIncident(this.selectedIncident.key, this.selectedIncident.payload)
+      alert("You have successfully reviewed the issue");
+      this.selectedIncident = null;
+    } catch (error) {
+      alert("Enforcer Review: " + error)
+    }
   }
 
   private compareStrings(a: String, b: String) {
@@ -183,17 +137,17 @@ export class IncidentListComponent implements OnInit {
   }
 
   private setFormFields(selectedIncident) {
-    this.incidentForm.get("incidentId").setValue(selectedIncident.incidentId)
-    this.incidentForm.get("username").setValue(selectedIncident.username)
-    this.incidentForm.get("lot").setValue(selectedIncident.lotId)
-    this.incidentForm.get("spot").setValue(selectedIncident.parkingId)
-    this.incidentForm.get("location").setValue(selectedIncident.location)
-    this.incidentForm.get("summary").setValue(selectedIncident.description)
-    this.incidentForm.get("make").setValue(selectedIncident.violatorsVehicle)
-    this.incidentForm.get("model").setValue(selectedIncident.violatorsModel)
-    this.incidentForm.get("license").setValue(selectedIncident.violatorsLicense)
-    this.incidentForm.get("date").setValue(selectedIncident.date)
-    this.incidentForm.get("time").setValue(selectedIncident.time)
-    this.incidentForm.get("color").setValue(selectedIncident.violatorsColor)
+    this.incidentForm.get("incidentId").setValue(selectedIncident.key)
+    this.incidentForm.get("username").setValue(selectedIncident.payload.username)
+    this.incidentForm.get("lot").setValue(selectedIncident.payload.lotId)
+    this.incidentForm.get("spot").setValue(selectedIncident.payload.spotId)
+    this.incidentForm.get("location").setValue(selectedIncident.payload.location)
+    this.incidentForm.get("summary").setValue(selectedIncident.payload.summary)
+    this.incidentForm.get("make").setValue(selectedIncident.payload.violatorsVehicle)
+    this.incidentForm.get("model").setValue(selectedIncident.payload.violatorsModel)
+    this.incidentForm.get("license").setValue(selectedIncident.payload.violatorsLicense)
+    this.incidentForm.get("date").setValue(selectedIncident.payload.date)
+    this.incidentForm.get("time").setValue(selectedIncident.payload.time)
+    this.incidentForm.get("color").setValue(selectedIncident.payload.violatorsColor)
   }
 }
