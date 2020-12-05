@@ -13,6 +13,7 @@
       <a [routerLink]="['/' + currentLoggedInUserType]">Dashboard</a>
       <a 
         *ngIf="currentLoggedInUserType == 'patron'"
+
         [routerLink]="['/' + currentLoggedInUserType, 'report']"
         >Report an Incident
       </a>
@@ -23,7 +24,7 @@
       </a>
       <a 
         *ngIf="currentLoggedInUserType == 'enforcer'"
-        >Issue a Ticket
+        [routerLink]="['/enforcer/issue-ticket']">Issue a Ticket
       </a>
       <!--  goes to either patron/profile or enforcer/profile-->
       <a [routerLink]="['/' + currentLoggedInUserType, 'profile']">Profile</a> 
