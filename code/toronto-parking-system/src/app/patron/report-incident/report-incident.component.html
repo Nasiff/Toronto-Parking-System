@@ -94,7 +94,7 @@
 
         <div class="form-row-element">
           <label for="date"> DATE OF INCIDENT </label>
-          <input id="date" type="text" formControlName="date" />
+          <input id="date" type="date" formControlName="date" />
           <div
             *ngIf="incf.date.invalid && incf.date.touched"
             class="error-field"
@@ -105,7 +105,7 @@
 
         <div class="form-row-element">
           <label for="time"> TIME OF INCIDENT </label>
-          <input id="time" type="text" formControlName="time" />
+          <input id="time" type="time" formControlName="time" />
           <div
             *ngIf="incf.time.invalid && incf.time.touched"
             class="error-field"

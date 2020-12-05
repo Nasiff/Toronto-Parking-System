@@ -10,6 +10,7 @@ import { IncidentService } from 'src/app/services/incident.service';
 export class IncidentListComponent implements OnInit {
   incidents = []
   selectedIncident;
+  isInaccessibleViolation;
   incidentForm: FormGroup;
 
   private incidentsCopy = []
@@ -73,7 +74,6 @@ export class IncidentListComponent implements OnInit {
   
   openIncidentDetails(incident) {
     this.selectedIncident = incident;
-    this.disableFormFields();
     this.setFormFields(this.selectedIncident);
   }
 
@@ -121,33 +121,27 @@ export class IncidentListComponent implements OnInit {
     return (a < b) ? -1 : (a > b) ? 1 : 0;
   }
 
-  private disableFormFields() {
-    this.incidentForm.get("incidentId").disable();
-    this.incidentForm.get("username").disable();
-    this.incidentForm.get("lot").disable();
-    this.incidentForm.get("spot").disable();
-    this.incidentForm.get("location").disable();
-    this.incidentForm.get("summary").disable();
-    this.incidentForm.get("make").disable();
-    this.incidentForm.get("model").disable();
-    this.incidentForm.get("license").disable();
-    this.incidentForm.get("date").disable();
-    this.incidentForm.get("time").disable();
-    this.incidentForm.get("color").disable();
-  }
-
   private setFormFields(selectedIncident) {
+    if(selectedIncident.payload.violationType.includes("Inaccessible")) {
+      this.isInaccessibleViolation = true;
+      this.incidentForm.get("make").clearValidators();
+      this.incidentForm.get("model").clearValidators();
+      this.incidentForm.get("license").clearValidators();
+      this.incidentForm.get("color").clearValidators();
+    } else {
+      this.isInaccessibleViolation = null;
+      this.incidentForm.get("make").setValue(selectedIncident.payload.violatorsVehicle)
+      this.incidentForm.get("model").setValue(selectedIncident.payload.violatorsModel)
+      this.incidentForm.get("license").setValue(selectedIncident.payload.violatorsLicense)
+      this.incidentForm.get("color").setValue(selectedIncident.payload.violatorsColor)
+    }
     this.incidentForm.get("incidentId").setValue(selectedIncident.key)
     this.incidentForm.get("username").setValue(selectedIncident.payload.username)
     this.incidentForm.get("lot").setValue(selectedIncident.payload.lotId)
     this.incidentForm.get("spot").setValue(selectedIncident.payload.spotId)
     this.incidentForm.get("location").setValue(selectedIncident.payload.location)
     this.incidentForm.get("summary").setValue(selectedIncident.payload.summary)
-    this.incidentForm.get("make").setValue(selectedIncident.payload.violatorsVehicle)
-    this.incidentForm.get("model").setValue(selectedIncident.payload.violatorsModel)
-    this.incidentForm.get("license").setValue(selectedIncident.payload.violatorsLicense)
     this.incidentForm.get("date").setValue(selectedIncident.payload.date)
     this.incidentForm.get("time").setValue(selectedIncident.payload.time)
-    this.incidentForm.get("color").setValue(selectedIncident.payload.violatorsColor)
   }
 }

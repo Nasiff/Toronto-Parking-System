@@ -82,9 +82,9 @@
                     </div>
                 </div>
 
-                <h4>Violator's Information</h4>
+                <h4 *ngIf="!isInaccessibleViolation">Violator's Information</h4>
 
-                <div class="form-row">
+                <div *ngIf="!isInaccessibleViolation" class="form-row">
                     <div class="form-row-element">
                         <label for="make">
                             VEHICLE MAKE
@@ -107,7 +107,7 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-row-element">
+                    <div *ngIf="!isInaccessibleViolation" class="form-row-element">
                         <label for="license">
                             LICENSE PLATE #
                         </label>
