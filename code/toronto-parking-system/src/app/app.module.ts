@@ -24,8 +24,13 @@ import { environment } from '../environments/environment';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PatronProfileComponent } from './patron/patron-profile/patron-profile.component';
 import { EnforcerProfileComponent } from './enforcer/enforcer-profile/enforcer-profile.component';
+
 import { IncidentListComponent } from './enforcer/incident-list/incident-list.component';
 import { ReportIncidentComponent } from './patron/report-incident/report-incident.component';
+
+import { IssueTicketComponent } from './enforcer/issue-ticket/issue-ticket.component';
+
+
 
 @NgModule({
   declarations: [
@@ -38,7 +43,9 @@ import { ReportIncidentComponent } from './patron/report-incident/report-inciden
     PatronProfileComponent,
     EnforcerProfileComponent,
     IncidentListComponent,
-    ReportIncidentComponent
+    ReportIncidentComponent,
+    IssueTicketComponent
+
   ],
   imports: [
     BrowserModule,
@@ -57,7 +64,9 @@ import { ReportIncidentComponent } from './patron/report-incident/report-inciden
       { path: "patron/report", component: ReportIncidentComponent},
       { path: "enforcer", component: EnforcerComponent },
       { path: "enforcer/profile", component: EnforcerProfileComponent },
-      { path: "enforcer/incidents", component: IncidentListComponent }
+      { path: "enforcer/incidents", component: IncidentListComponent },
+      { path: "enforcer/issue-ticket", component: IssueTicketComponent}
+      
     ]),
     BrowserAnimationsModule
   ],
