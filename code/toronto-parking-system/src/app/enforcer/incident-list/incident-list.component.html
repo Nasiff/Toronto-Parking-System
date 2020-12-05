@@ -12,16 +12,21 @@
             </button>
         </div>
         <div class="incident-list">
-            <div 
-                class="incident-list-items" 
+            <div  
                 *ngFor="let incident of incidents; let i = index"
                 (click)="openIncidentDetails(incident)"
             >
-                <p>Incident ID:</p> <p>{{ incident.incidentId }}</p>
-                <p>Name:</p> <p>{{ incident.username }}</p>
-                <p>Parking Lot:</p> <p>{{ incident.parkingId }}</p>
-                <p>Location:</p> <p>{{ incident.location }}</p>
-                <p>Incident Summary:</p> <p>{{ incident.description }}</p>
+                <div 
+                    *ngIf="!incident.payload.isResolved"
+                    class="incident-list-items"
+                >
+                    <p>ID:</p> <p>{{ incident.key }}</p>
+                    <p>Patron Username:</p> <p>{{ incident.payload.username }}</p>
+                    <p>Type:</p> <p>{{ incident.payload.violationType.substr(3) }}</p>
+                    <p>Parking Lot:</p> <p>{{ incident.payload.lotId }}</p>
+                    <p>Location:</p> <p>{{ incident.payload.location }}</p>
+                    <p>Incident Summary:</p> <p>{{ incident.payload.summary }}</p>
+                </div>
             </div>
         </div>
     </div>

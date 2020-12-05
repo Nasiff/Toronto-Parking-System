@@ -118,7 +118,7 @@ export class PatronProfileComponent implements OnInit {
       alert('Saved Changes. Changes will be reflected the next time you login');
     } 
      catch (error) {
-       console.log(error);
+      alert("Patron Save: " + error)
     }
   }
 
@@ -130,7 +130,7 @@ export class PatronProfileComponent implements OnInit {
         alert('Account successfully deleted');
       }
     } catch (error) {
-      console.log(error);
+      alert("Patron Delete: " + error)
     }
   }
 }
