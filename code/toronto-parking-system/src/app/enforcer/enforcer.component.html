@@ -1,35 +1,162 @@
-<div class="container text-center">
-    <h1>{{title}}</h1>
-  </div>
-  <div class="container">
-    <div class="row">
-      <div class="search-hero">
-        <input class="form-control" type="text" name="search" [(ngModel)]="searchRes" autocomplete="off" placeholder="&#61442;  Start searching for a hero by id or name or country">
-      </div>
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th>address</th>
-          <th>distance</th>
-          <th>isOpen</th>
-          <th>lots</th>
-          <th>parkingId</th>
-          <th>price</th>
-          <th>Edit</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let r of enfServ.parkings | filter:searchRes">
-            <td>{{r.payload.address}}</td>
-            <td>{{r.payload.distance}}</td>
-            <td>{{r.payload.isOpen}}</td>
-            <td>{{r.payload.lots}}</td>
-            <td>{{r.payload.parkingId}}</td>
-            <td>{{r.payload.price}}</td>
-            <td>Edit Button</td>
-        </tr>
-        </tbody>
-      </table>
+<!-- 
+
+-->
+
+
+
+
+
+<div if="this.isSafe()">
+
+
+  <div if="view == 0"
+    class="parking-list"  
+  >
+    <div class="parking-search">
+      <input type="text" name="search" [(ngModel)]="searchRes" autocomplete="off" placeholder="&#61442;  Search for parking lots by name...">
+    </div>
+    <div  
+      *ngFor="let park of enfServ.parkings | filter:searchRes"
+
+    >
+    
+        <div 
+            class="parking-list-items"
+        >
+          <p>Distance:</p> <p>{{ park.payload.distance }}</p>
+          <p>Address:</p> <p>{{ park.payload.address }}</p>
+          <p>Is Open:</p> <p>{{ park.payload.isOpen}}</p>
+          <p>Capacity:</p> <p>{{ park.payload.lots.size}}</p>
+          <p>Lots:</p> <button (click)="openLotDetails(park.payload.lots)">View Lots</button>
+          <p>ID:</p> <p>{{ park.payload.parkingId }}</p>
+          <p>Price:</p> <p>{{ park.payload.price }}</p>
+          <p>Edit:</p> <button (click)="openParkingEditor(park)">Edit</button>
+        </div>
     </div>
   </div>
-  
+
+
+  <div *ngIf="view == 1">
+    <div class="parking-header">
+        <button (click)="goToParkingListView()">Go Back To All Parkings</button>
+    </div>
+      <div  
+        *ngFor="let l of selectedLot"
+      >
+          <div 
+              class="parking-list-items"
+          >
+            <p>Booker:</p> <p>{{ (compareStrings(l.bookedBy, "")==0)?'None':l.bookedBy}}</p>
+            <p>Date Reserved:</p> <p>{{ (compareStrings(l.dateReserved, "")==0)?'None':l.dateReserved}}</p>
+            <p>Duration:</p> <p>{{ (compareStrings(l.duration, "")==0)?'None':l.duration}}</p>
+            <p>Is Available?:</p>  <p>{{ l.isAvailable }}</p>
+            <p>Is Handicapped?:</p> <p>{{ l.isHandicapped }}</p>
+            <p>Lot Number:</p> <p>{{ l.lotNumber }}</p>
+            <p>Time Reserved:</p> <p>{{ (compareStrings(l.timeReserved, "")==0)?'None':l.timeReserved}}</p>
+          </div>
+      </div>
+  </div>
+
+
+  <div *ngIf="view == 2">
+    <div class="parking-header">
+        <button (click)="goToParkingListView()">Go Back To All Parkings</button>
+        <button (click)="submitChanges()">Submit Changes</button>
+    </div>
+    <div class="parking-form">
+        <form [formGroup]="parkingForm">
+            <h4>{{selectedParking.address}}</h4>
+
+            <div formArrayName="opTimes">
+              OPERATING TIMES
+              <button (click)="newOpAvail()">Add Availbility</button>
+              <!-- <div *ngIf="this.getOpTimes.value.length>0"> -->
+                <div *ngFor="let o of getOpTimes.controls; let i = index">
+                  <div [formGroupName]="i">
+                    {{i}}
+                    <input type="text" formControlName="availableFromDay">
+                    <input type="text" formControlName="availableToDay">
+                    <input type="time" formControlName="availableFromTime">
+                    <input type="time" formControlName="availableToTime">
+                    <button (click)="remOpAvail(i)">Remove Availbility</button>
+                  </div>
+                </div>
+              <!-- </div> -->
+            </div>
+
+
+
+
+            <div class="form-row">
+              <div class="form-row-element">
+                  <label for="capacity">
+                      CAPACITY
+                  </label>
+                  <input id="capacity" type="number" formControlName="capacity">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div formArrayName="toClose">
+                TO CLOSE
+                <button (click)="newToClose()">Add Spot</button>
+                <div *ngIf="this.getToClose.value.length>0">
+                  <div *ngFor="let c of getToClose.controls; let i = index">
+                    <div [formGroupName]="i">
+                      {{i}}
+                      <input type="number" formControlName="lotNumber">
+                      <button (click)="remToClose(i)">Remove Spot</button> 
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div formArrayName="toHandi">
+                TO HANDICAPPED
+                <button (click)="newToHandi()">Add Spot</button>
+                <div *ngIf="this.getToHandi.value.length>0">
+                  <div *ngFor="let h of getToHandi.controls; let i = index">
+                    <div [formGroupName]="i">
+                      {{i}}
+                      <input type="number" formControlName="lotNumber">
+                      <button (click)="remToHandi(i)">Remove Spot</button> 
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <div class="form-row">
+            <div class="form-row-element">
+                <label for="price">
+                    PRICE
+                </label>
+                <input id="price" type="number" formControlName="price">
+            </div>
+          </div>
+          <div class="form-row">
+            <div formArrayName="freeTimes">
+              FREE TIMES
+              <button (click)="newFreeAvail()">Add Availbility</button>
+              <div *ngIf="this.getFreeTimes.value.length>0">
+                <div *ngFor="let f of getFreeTimes.controls; let i = index">
+                  <div [formGroupName]="i">
+                    {{i}}
+                    <input type="text" formControlName="availableFromDay">
+                    <input type="text" formControlName="availableToDay">
+                    <input type="time" formControlName="availableFromTime">
+                    <input type="time" formControlName="availableToTime">
+                    <button (click)="remFreeAvail(i)">Remove Availbility</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+    </div>
+  </div>
+
+
+
+</div>

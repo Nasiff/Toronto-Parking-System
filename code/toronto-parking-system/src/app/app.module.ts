@@ -27,6 +27,7 @@ import { EnforcerProfileComponent } from './enforcer/enforcer-profile/enforcer-p
 
 import { IncidentListComponent } from './enforcer/incident-list/incident-list.component';
 import { ReportIncidentComponent } from './patron/report-incident/report-incident.component';
+import { EnforcerService } from './services/enforcer.service';
 
 import { IssueTicketComponent } from './enforcer/issue-ticket/issue-ticket.component';
 
@@ -71,7 +72,8 @@ import { IssueTicketComponent } from './enforcer/issue-ticket/issue-ticket.compo
     BrowserAnimationsModule
   ],
   providers: [
-    UserService
+    UserService,
+    EnforcerService
   ],
   bootstrap: [AppComponent]
 })
