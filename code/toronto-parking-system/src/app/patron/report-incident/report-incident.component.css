@@ -1,0 +1,59 @@
+.reg-container {
+    padding-top: 10px;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.form-row-element {
+  padding-right: 25px;
+}
+
+#add-vehicle-btn {
+  background-color: green;
+  color: white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+
+#add-vehicle-btn:hover {
+  background-color: white;
+  color: green;
+}
+
+#del-vehicle-btn {
+  background-color: orangered;
+  color: white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+
+#del-vehicle-btn:hover {
+  background-color: white;
+  color: orangered;
+}
+
+.error-field {
+  color: orangered;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.profile-btn-group {
+  padding-top: 10px;
+}
+
+.custom-select {
+    margin-bottom: 25px;
+}
+
+#summary {
+    width: 96%;
+    height: 100px;
+}

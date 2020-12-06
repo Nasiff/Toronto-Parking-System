@@ -1,0 +1,221 @@
+<div *ngIf="!showPrintForm" class="reg-container">
+    <div class="patron-reg-form">
+        <h2 class="reg-header">
+            <strong>Issue A Ticket</strong>
+        </h2>
+
+        <form [formGroup]="IssueTicket" (ngSubmit)="onSubmit(IssueTicket.value)">
+            <div class="form-row">
+                
+                <div class="form-row-element">
+                    <label for="PVio">
+                        Parking Viloation Type
+                    </label>
+                    <select formControlName="typeofVio">
+                        <option value="" disabled>Choose Violation</option>
+                        <option *ngFor="let q of ViolationOptions" [ngValue]="q">{{q}}</option>
+                     </select>
+                </div>
+                    
+                
+            </div>
+        <br/>
+            <div class="form-row">
+                <div class="form-row-element">
+                    <label for="PLocationL">
+                        Parking Location
+                    </label>
+                    <input id="PLocation" type="text" formControlName="PLocation">
+                    <div *ngIf="iss.PLocation.invalid && iss.PLocation.touched" class="error-field">
+                        Parking Location is Requred
+                    </div>
+                </div>
+            
+                <div class="form-row-element">
+                    <label for="PLotNumberL">
+                        Parking Lot Number
+                    </label>
+                    <input id="PLotNumber" type="text" formControlName="PLotNumber">
+                    <div *ngIf="iss.PLotNumber.invalid && iss.PLotNumber.touched" class="error-field">
+                        Parking Lot Number is Required
+                    </div>
+                </div>
+            
+                <div class="form-row-element">
+                    <label for="PParkingSpotNumberL">
+                        Parking Spot Number
+                    </label>
+                    <input id="PParkingSpotNumber" type="text" formControlName="PParkingSpotNumber">
+                    <div *ngIf="iss.PParkingSpotNumber.invalid && iss.PParkingSpotNumber.touched" class="error-field">
+                        Parking Spot Number is Required
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="form-row">
+                <div class="form-row-element">
+                    <label for="VMakeL">
+                        Violators Vechicle Make
+                    </label>
+                    <input id="VMake" type="text" formControlName="VMake">
+                    <div *ngIf="iss.VMake.invalid && iss.VMake.touched" class="error-field">
+                        Violators Vechicle Make is Required
+                    </div>
+                </div>
+            
+                <div class="form-row-element">
+                    <label for="VModelL">
+                        Violators Vechicle Model
+                    </label>
+                    <input id="VModel" type="text" formControlName="VModel">
+                    <div *ngIf="iss.VModel.invalid && iss.VModel.touched" class="error-field">
+                        Violators Vechicle Model is Required
+                    </div>
+                </div>
+            
+                <div class="form-row-element">
+                    <label for="VLPlateL">
+                        Violators Lisence Plate
+                    </label>
+                    <input id="VLPlate" type="text" formControlName="VLPlate">
+                    <div *ngIf="iss.VLPlate.invalid && iss.VLPlate.touched" class="error-field">
+                        Violators Lisence Plate is Required
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="form-row">
+                <div class="form-row-element">
+                    <label for="IDateL">
+                        Date of Incident
+                    </label>
+                    <input id="IDate" type="date" formControlName="IDate">
+                    <div *ngIf="iss.IDate.invalid && iss.IDate.touched" class="error-field">
+                        Date is Required
+                    </div>
+                </div>
+            
+                <div class="form-row-element">
+                    <label for="ITimeL">
+                        Time of Incident
+                    </label>
+                    <input id="ITime" type="time" formControlName="ITime">
+                    <div *ngIf="iss.ITime.invalid && iss.ITime.touched" class="error-field">
+                       Time is Required
+                    </div>
+                </div>
+            
+                <div class="form-row-element">
+                    <label for="VColorL">
+                        Violators Vehicle Color
+                    </label>
+                    <input id="VColor" type="text" formControlName="VColor">
+                    <div *ngIf="iss.VColor.invalid && iss.VColor.touched" class="error-field">
+                        Violators Vehicle Color is Required
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="form-row">
+                <div class="form-row-element">
+                    <label for="VReason">
+                        Other Reasoning
+                    </label>
+                    <textarea id="reasoning" name="reasoning"  formControlName="reasoning" rows="4" cols="50"></textarea>
+                </div>
+            </div>
+            <br/>
+            <div class="form-row">
+                <div class="form-row-element">
+                    <label for="TFineL">
+                        Total Fine
+                    </label>
+                    <input id="TFine" type="number" formControlName="TFine">
+                    <div *ngIf="iss.TFine.invalid && iss.TFine.touched" class="error-field">
+                        Fine is Required
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="form-row">
+                <div class="form-row-element">
+                    <button 
+                    type="submit" 
+                    title="Complete form to enable button"
+                    [disabled]="IssueTicket.invalid"
+                    >
+                    Submit
+                    <span class="loader"></span>
+                </button>
+                </div>
+                <div class="form-row-element">
+                    <input 
+                    type="button"
+                    value="Reset Changes"
+                    (click)="initForm()"/>
+                
+                </div>
+
+
+            </div>
+
+
+        </form>
+    </div>
+</div>
+
+<div *ngIf="showPrintForm">
+    
+<h1>
+    Ticket
+</h1>
+
+        <h2>
+        <Strong>Badge Number:</Strong> {{this.currentLoggedInUser.payload.badge}} ,  <Strong>Officer Name:</Strong> {{this.currentLoggedInUser.payload.name}}
+        </h2>
+
+
+        <h2>
+            <Strong>Viloation:</Strong> {{this.ticketInfo.typeofVio}}
+        </h2>
+
+
+        <h2>
+            <Strong>Location:</Strong> {{this.ticketInfo.PLocation}}  ,   <Strong>Lot Number: </Strong> {{this.ticketInfo.PLotNumber}}  ,   <Strong>Spot Number: </Strong> {{this.ticketInfo.PParkingSpotNumber}}
+        </h2>
+
+
+
+
+
+        <h2>
+            <Strong>Vechicle Make:</Strong> {{this.ticketInfo.VMake}} , <Strong>Vechicle Model:</Strong> {{this.ticketInfo.VModel}}   ,  <Strong>Vechicle Color:</Strong> {{this.ticketInfo.VColor}}  ,   <Strong>License Plate:</Strong> {{this.ticketInfo.VLPlate}}
+        </h2>
+
+   
+
+        <h2>
+           <Strong>Date and Time:</Strong> {{this.ticketInfo.IDate}} , {{this.ticketInfo.ITime}}
+        </h2>
+
+
+
+        <h2>
+           <Strong>Reasoning:</Strong> {{this.ticketInfo.reasoning}} 
+        </h2>
+
+    
+
+        <h2>
+           <Strong>Total Fine: {{this.ticketInfo.TFine  | currency}}  </Strong>
+        </h2>
+
+        <button
+            (click)="goBack()">
+        Go back</button>
+
+</div>
+
+
+
+

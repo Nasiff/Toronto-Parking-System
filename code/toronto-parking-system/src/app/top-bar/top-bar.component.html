@@ -2,6 +2,10 @@
     {{ title }}
 </h2>
 
+<h2 class="top-bar-title" *ngIf="!isLoginOrRegistration()">
+  {{ currentLoggedInUserType + " view" | uppercase }}
+</h2>
+
 <div class="dropdown" *ngIf="!isLoginOrRegistration()">
     <button (click)="showDropdownMenu()" class="dropbtn"> {{ currentLoggedInUserName }}'s Home</button>
     <div id="myDropdown" class="dropdown-content">
@@ -9,16 +13,18 @@
       <a [routerLink]="['/' + currentLoggedInUserType]">Dashboard</a>
       <a 
         *ngIf="currentLoggedInUserType == 'patron'"
-        >Report an incident
+
+        [routerLink]="['/' + currentLoggedInUserType, 'report']"
+        >Report an Incident
       </a>
       <a 
         *ngIf="currentLoggedInUserType == 'enforcer'"
         [routerLink]="['/' + currentLoggedInUserType, 'incidents']"
-        >Review incidents
+        >Review Incidents
       </a>
       <a 
         *ngIf="currentLoggedInUserType == 'enforcer'"
-        >Issue a ticket
+        [routerLink]="['/enforcer/issue-ticket']">Issue a Ticket
       </a>
       <!--  goes to either patron/profile or enforcer/profile-->
       <a [routerLink]="['/' + currentLoggedInUserType, 'profile']">Profile</a> 

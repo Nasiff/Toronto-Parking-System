@@ -1,0 +1,153 @@
+<div>
+  <h1 class="list-header">Report An Issue</h1>
+  <div class="incident-form">
+    <form [formGroup]="incidentForm" (ngSubmit)="onSubmit(incidentForm.value)">
+      <label for="violationType"> PLEASE CHOOSE THE TYPE OF INCIDENT </label>
+      <select
+        class="custom-select"
+        (change)="changeViolationType($event)"
+        formControlName="violationType"
+      >
+        <option *ngFor="let p of parkingViolationTypes" [ngValue]="p">
+          {{ p }}
+        </option>
+      </select>
+
+      <div class="form-row">
+        <div class="form-row-element">
+          <label for="location"> PARKING LOCATION </label>
+          <input id="location" type="text" formControlName="location" />
+          <div
+            *ngIf="incf.location.invalid && incf.location.touched"
+            class="error-field"
+          >
+            This field is required!
+          </div>
+        </div>
+
+        <div class="form-row-element">
+          <label for="lot"> PARKING LOT # </label>
+          <input id="lot" type="text" formControlName="lot" />
+          <div *ngIf="incf.lot.invalid && incf.lot.touched" class="error-field">
+            This field is required!
+          </div>
+        </div>
+
+        <div class="form-row-element">
+          <label for="spot"> PARKING SPOT # </label>
+          <input id="spot" type="text" formControlName="spot" />
+          <div
+            *ngIf="incf.spot.invalid && incf.spot.touched"
+            class="error-field"
+          >
+            This field is required!
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isViolatorForm" class="form-row">
+        <div class="form-row-element">
+          <label for="make"> VIOLATOR'S VEHICLE MAKE </label>
+          <input id="make" type="text" formControlName="make" />
+          <div
+            *ngIf="incf.make.invalid && incf.make.touched"
+            class="error-field"
+          >
+            This field is required!
+          </div>
+        </div>
+
+        <div class="form-row-element">
+          <label for="model"> VIOLATOR'S VEHICLE MODEL </label>
+          <input id="model" type="text" formControlName="model" />
+          <div
+            *ngIf="incf.model.invalid && incf.model.touched"
+            class="error-field"
+          >
+            This field is required!
+          </div>
+        </div>
+
+        <div class="form-row-element">
+          <label for="color"> VIOLATOR'S VEHICLE COLOR </label>
+          <input id="color" type="text" formControlName="color" />
+          <div
+            *ngIf="incf.color.invalid && incf.color.touched"
+            class="error-field"
+          >
+            This field is required!
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div *ngIf="isViolatorForm" class="form-row-element">
+          <label for="license"> LICENSE PLATE # </label>
+          <input id="license" type="text" formControlName="license" />
+          <div
+            *ngIf="incf.license.invalid && incf.license.touched"
+            class="error-field"
+          >
+            This field is required and be exactly 6 chars!
+          </div>
+        </div>
+
+        <div class="form-row-element">
+          <label for="date"> DATE OF INCIDENT </label>
+          <input id="date" type="date" formControlName="date" />
+          <div
+            *ngIf="incf.date.invalid && incf.date.touched"
+            class="error-field"
+          >
+            This field is required!
+          </div>
+        </div>
+
+        <div class="form-row-element">
+          <label for="time"> TIME OF INCIDENT </label>
+          <input id="time" type="time" formControlName="time" />
+          <div
+            *ngIf="incf.time.invalid && incf.time.touched"
+            class="error-field"
+          >
+            This field is required!
+          </div>
+        </div>
+      </div>
+
+      <label for="summary">
+        PLEASE ENTER A BRIEF DESCRIPTION OF THE INCIDENT
+      </label>
+      <textarea id="summary" type="text" formControlName="summary"></textarea>
+      <div
+        *ngIf="incf.summary.invalid && incf.summary.touched"
+        class="error-field"
+      >
+        This field is required!
+      </div>
+
+      <label for="refund"> WOULD YOU LIKE A REFUND? </label>
+      <div class="form-row">
+          <label>
+            <input type="radio" [value]="true" formControlName="refund" />
+            <span>YES</span>
+          </label>
+          <label>
+            <input type="radio" [value]="false" formControlName="refund" />
+            <span>NO</span>
+          </label>
+      </div>
+
+      <br />
+      <div class="profile-btn-group">
+        <button
+          title="Please fill in all the required fields"
+          [disabled]="incidentForm.invalid"
+        >
+          Submit Report
+        </button>
+        <input type="button" value="Clear Form" (click)="clearForm()" />
+      </div>
+    </form>
+  </div>
+</div>
