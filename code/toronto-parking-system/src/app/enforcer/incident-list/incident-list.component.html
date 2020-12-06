@@ -82,9 +82,9 @@
                     </div>
                 </div>
 
-                <h4>Violator's Information</h4>
+                <h4 *ngIf="!isInaccessibleViolation">Violator's Information</h4>
 
-                <div class="form-row">
+                <div *ngIf="!isInaccessibleViolation" class="form-row">
                     <div class="form-row-element">
                         <label for="make">
                             VEHICLE MAKE
@@ -107,7 +107,7 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-row-element">
+                    <div *ngIf="!isInaccessibleViolation" class="form-row-element">
                         <label for="license">
                             LICENSE PLATE #
                         </label>
@@ -118,14 +118,14 @@
                         <label for="date">
                             DATE OF INCIDENT
                         </label>
-                        <input id="date" type="text" formControlName="date">
+                        <input id="date" type="date" formControlName="date">
                     </div>
                 
                     <div class="form-row-element">
                         <label for="time">
                             TIME OF INCIDENT
                         </label>
-                        <input id="time" type="text" formControlName="time">
+                        <input id="time" type="time" formControlName="time">
                     </div>
                 </div>
                 <br>
