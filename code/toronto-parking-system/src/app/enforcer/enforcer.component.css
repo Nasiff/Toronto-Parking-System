@@ -1,0 +1,59 @@
+.parking-list-btns button {
+  margin-right: 10px;
+}
+
+.parking-search {
+  padding-bottom: 50px;
+  margin:auto;
+}
+
+.parking-list {
+  border-radius: 5px;
+  padding: 10px;
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.parking-list-old {
+  border: 2px solid darkslategrey;
+  border-radius: 5px;
+  padding: 10px;
+  overflow: auto;
+  width: 100%;
+  min-height: 150px;
+  max-height: 450px;
+  height: 10%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.parking-list-items {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 0px;
+  border: 1px solid black;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.form-row-element {
+  padding-right: 25px;
+}
+
+.parking-header {
+  margin-bottom: 20px;
+}

@@ -1,5 +1,7 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+// search module
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -20,6 +22,8 @@ import { PatronProfileComponent } from './patron/patron-profile/patron-profile.c
 import { EnforcerProfileComponent } from './enforcer/enforcer-profile/enforcer-profile.component';
 import { IncidentListComponent } from './enforcer/incident-list/incident-list.component';
 import { ReportIncidentComponent } from './patron/report-incident/report-incident.component';
+import { EnforcerService } from './services/enforcer.service';
+
 import { IssueTicketComponent } from './enforcer/issue-ticket/issue-ticket.component';
 
 
@@ -43,6 +47,7 @@ import { IssueTicketComponent } from './enforcer/issue-ticket/issue-ticket.compo
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
+    Ng2SearchPipeModule,
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireDatabaseModule,
@@ -62,7 +67,8 @@ import { IssueTicketComponent } from './enforcer/issue-ticket/issue-ticket.compo
     BrowserAnimationsModule
   ],
   providers: [
-    UserService
+    UserService,
+    EnforcerService
   ],
   bootstrap: [AppComponent]
 })
