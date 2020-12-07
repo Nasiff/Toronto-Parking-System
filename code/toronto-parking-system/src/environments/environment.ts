@@ -6,14 +6,14 @@ export const environment = {
   production: false,
   firebaseConfig: {
     // ADD IN YOUR OWN FIREBASE CONFIG HERE (Create a project on firebase), DONT USE MINE BELOW
-    apiKey: "AIzaSyB82vNuuWHozAUb_VtBvqpZoNzVGqzloaQ",
-    authDomain: "lassonde-sux.firebaseapp.com",
-    databaseURL: "https://lassonde-sux.firebaseio.com",
-    projectId: "lassonde-sux",
-    storageBucket: "lassonde-sux.appspot.com",
-    messagingSenderId: "1056494147567",
-    appId: "1:1056494147567:web:18355b437b90eec244881a",
-    measurementId: "G-3TJX2D8CHB"
+    apiKey: "AIzaSyAN1yZpahGRicFTsfG_m-Z13JaNv1jWi4E",
+    authDomain: "eecs4312-to-parking-system.firebaseapp.com",
+    databaseURL: "https://eecs4312-to-parking-system.firebaseio.com",
+    projectId: "eecs4312-to-parking-system",
+    storageBucket: "eecs4312-to-parking-system.appspot.com",
+    messagingSenderId: "521712077197",
+    appId: "1:521712077197:web:6cc75674e3580e858ad5c4",
+    measurementId: "G-NJ0NZW6C0S"
   }
 };
 
