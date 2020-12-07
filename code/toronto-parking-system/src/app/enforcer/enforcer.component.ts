@@ -187,6 +187,13 @@ export class EnforcerComponent implements OnInit {
     })
   }
 
+  validDates(afd, atd){
+    return true;
+  }
+
+  validTimes(aft, att){
+    return true;
+  }
 
   newAvail(afd, atd, aft, att): FormGroup {
     return this.fb.group({
@@ -214,11 +221,19 @@ export class EnforcerComponent implements OnInit {
   }
 
   addOpAvail(afd, atd, aft, att) {
-    this.getOpTimes.push(this.newAvail(afd, atd, aft, att));
+    if(this.validDates(afd, atd)){
+      if(this.validTimes(aft, att)){
+        this.getOpTimes.push(this.newAvail(afd, atd, aft, att));
+      }
+    }
   }
 
   addFreeAvail(afd, atd, aft, att) {
-    this.getFreeTimes.push(this.newAvail(afd, atd, aft, att));
+    if(this.validDates(afd, atd)){
+      if(this.validTimes(aft, att)){
+        this.getFreeTimes.push(this.newAvail(afd, atd, aft, att));
+      }
+    }
   }
 
   addToClose(n) {
