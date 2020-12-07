@@ -36,10 +36,6 @@ export class ReportIncidentComponent implements OnInit {
       color: ["", Validators.required],
       refund: ["", Validators.required],
     });
-
-    this.incidentForm
-      .get("violationType")
-      .setValue(this.parkingViolationTypes[0], { onlySelf: true });
     
     this.isViolatorForm = true;
   }
@@ -86,9 +82,6 @@ export class ReportIncidentComponent implements OnInit {
 
   clearForm() {
     this.incidentForm.reset();
-    this.incidentForm
-      .get("violationType")
-      .setValue(this.parkingViolationTypes[0], { onlySelf: true });
   }
 
   prepareIncidentFields(formData) {
