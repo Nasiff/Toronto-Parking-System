@@ -1,1 +1,130 @@
-<p>patron works!</p>
+<div *ngIf="!isBookingView">
+  <h1 class="list-header">Book A Parking</h1>
+  <div class="parking-list-container">
+    <div class="parking-list-btns">
+      <button (click)="sortByDistance()">Sort By Distance</button>
+      <button (click)="sortByPrice()">Sort By Price</button>
+      <input
+        #searchbox
+        type="text"
+        placeholder="Search by Address"
+      />
+      <button (click)="searchById(searchbox.value)">Search</button>
+    </div>
+    <div class="parking-list">
+      <div *ngFor="let parking of parkings">
+        <div class="parking-list-box">
+          <div class="distance-label">
+            <div>{{ parking.payload.distance | number: "1.1" }} KM</div>
+          </div>
+          <div class="parking-list-items">
+            <div>{{ parking.payload.address }}</div>
+            <div>{{ parking.payload.price | currency }} / Half Hour</div>
+          </div>
+          <button *ngIf="parking.payload.isOpen" (click)="openBookingForm(parking)">Book Parking</button>
+          <button *ngIf="!parking.payload.isOpen" disabled="true">Closed</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isBookingView">
+  <div class="list-header">
+    <button (click)="goBackToParkingView()">Go Back</button>
+  </div>
+
+  <div class="parking-summary">
+    <div class="parking-summary-lot">
+      {{ selectedParking.payload.address }}, M3A 3M5
+    </div>
+    <div
+      class="parking-summary-availabilities"
+      *ngFor="
+        let avail of selectedParking.payload.availabilities;
+        let i = index
+      "
+    >
+      <p>{{ avail.availableFromDay }} - {{ avail.availableToDay }}</p>
+      <p>{{ avail.availableFromTime }} - {{ avail.availableToTime }}</p>
+      <p>(PAID)</p>
+    </div>
+    <div
+      class="parking-summary-free"
+      *ngFor="
+        let free of selectedParking.payload.freeAvailabilities;
+        let i = index
+      "
+    >
+      <p>{{ free.availableFromDay }} - {{ free.availableToDay }}</p>
+      <p>{{ free.availableFromTime }} - {{ free.availableToTime }}</p>
+      <p>(FREE)</p>
+    </div>
+    <div>
+      <p>Capacity: {{ selectedParking.payload.lots.length }}</p>
+    </div>
+  </div>
+
+  <div class="booking-form">
+    <form
+      [formGroup]="bookingForm"
+      (ngSubmit)="onCheckout(this.bookingForm.value)"
+    >
+      <p>Please select the date and time you would like to reserve:</p>
+      <div class="form-row">
+        <div class="form-row-element">
+          <label for="date"> DATE </label>
+          <input id="date" type="date" formControlName="date" />
+        </div>
+
+        <div class="form-row-element">
+          <label for="time"> TIME </label>
+          <input id="time" type="time" formControlName="time" />
+        </div>
+      </div>
+
+      <label for="spot"> Please select an available spot below </label>
+      <select
+        class="custom-select"
+        (change)="changeSpot($event)"
+        formControlName="spot"
+      >
+        <option *ngFor="let s of spotChoices" [ngValue]="s">
+          {{ s }}
+        </option>
+      </select>
+
+      <label for="duration"> Please select for how long </label>
+      <select
+        class="custom-select"
+        (change)="changeDuration($event)"
+        formControlName="duration"
+      >
+        <option *ngFor="let d of durationChoices" [ngValue]="d">
+          {{ d }}
+        </option>
+      </select>
+
+      <br />
+      <div class="btn-group">
+        <button
+          [disabled]="this.bookingForm.invalid"
+          title="Please fill all the forms to enable button"
+        >
+          Checkout
+        </button>
+      </div>
+    </form>
+    <div class="paymentInfo" *ngIf="submittedData">
+      <p>
+        Your {{ user.payload.paymentType.substr(3) }} is going to be charged
+      </p>
+      <h4>Your Booking Details:</h4>
+      <p>{{ selectedParking.payload.address }}</p>
+      <p>Date: {{ submittedData.date }}</p>
+      <p>Time: {{ submittedData.time }}</p>
+      <p>Duration: {{ submittedData.duration }}</p>
+      <button (click)="onConfirm(submittedData)">Confirm</button>
+    </div>
+  </div>
+</div>
