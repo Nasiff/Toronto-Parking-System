@@ -45,6 +45,15 @@ export class EnforcerComponent implements OnInit {
     
   }
 
+  sortByDistance() {
+    this.parkings.sort((a, b) => parseFloat(a.payload.distance) - parseFloat(b.payload.distance));
+  }
+
+  sortByPrice() {
+    this.parkings.sort((a, b) => parseFloat(a.payload.price) - parseFloat(b.payload.price));
+  }
+
+
   private compareStrings(a: String, b: String) {
     a = a.toLowerCase();
     b = b.toLowerCase();
@@ -301,7 +310,7 @@ export class EnforcerComponent implements OnInit {
             duration: "",
             isAvailable: false,
             isHandicapped: false,
-            lotNumber: null,
+            lotNumber: i+1,
             timeReserved: ""
           }
         )

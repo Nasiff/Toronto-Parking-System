@@ -12,11 +12,13 @@
   <div if="view == 0"
     class="parking-list"  
   >
+  <button (click)="sortByDistance()">Sort By Distance</button>
+  <button (click)="sortByPrice()">Sort By Price</button>
     <div class="parking-search">
       <input type="text" name="search" [(ngModel)]="searchRes" autocomplete="off" placeholder="&#61442;  Search for parking lots by name...">
     </div>
     <div  
-      *ngFor="let park of enfServ.parkings | filter:searchRes"
+      *ngFor="let park of parkings | filter:searchRes"
 
     >
     
