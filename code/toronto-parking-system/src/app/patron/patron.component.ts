@@ -1,98 +1,180 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/user.service';
+import { formatDate } from '@angular/common';
+import { Component, OnInit } from "@angular/core";
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { PatronService } from '../services/patron.service';
+import { UserService } from '../services/user.service';
 
 @Component({
-  selector: 'app-patron',
-  templateUrl: './patron.component.html',
-  styleUrls: ['./patron.component.css']
+  selector: "app-patron",
+  templateUrl: "./patron.component.html",
+  styleUrls: ["./patron.component.css"],
 })
 export class PatronComponent implements OnInit {
-  patron: FormGroup;
-  orderChanged: boolean = false;
-  loading: boolean = false;
-  locationA: string;
-  priceA: string;
-  distanceA: string;
-  locationB: string;
-  priceB: string;
-  distanceB: string;
-  locationC: string;
-  priceC: string;
-  distanceC: string;
-  locationD: string;
-  priceD: string;
-  distanceD: string;
-  locationE: string;
-  priceE: string;
-  distanceE: string;
-  
+  parkings = [];
+  parkingsCopy = [];
+  bookingForm: FormGroup;
+  isBookingView;
+
+  selectedParking;
+  selectedLot;
+
+  spotChoices = [];
+  durationChoices = ["30 mins", "1 hour", "2 hours", "3 hours (Max)"]
+
+  user;
+  submittedData
+
   constructor(
-    private router: Router
+    private formBuilder: FormBuilder,
+    private userSvc: UserService,
+    private patronSvc: PatronService
   ) {
-    // this.locationA = '101 Lassonde Street';
-      // this.priceA = 'Rate: $4.00/ 1/2 Hr'
-      // this.distanceA = '0.5 KM Away';
-      // this.locationB = '233 Bethune Street';
-      // this.priceB = 'Rate: $2.90/ 1/2 Hr';
-      // this.distanceB = '0.5 KM Away';
-      // this.locationC = '404 York Boulevard';
-      // this.priceC = 'Rate: $5.00/ 1/2 Hr';
-      // this.distanceC = '0.5 KM Away';
-      // this.locationD = '99 Bergeron Lane';
-      // this.priceD = 'Rate: $5.00/ 1/2 Hr';
-      // this.distanceD = '0.5 KM Away';
-      // this.locationE = '502 Schulich Drive';
-      // this.priceE = 'Rate: $4.00/ 1/2 Hr';
-      // this.distanceE = '0.5 KM Away';
-   };
+    this.bookingForm = this.formBuilder.group({
+      date: ["", Validators.required],
+      time: ["", Validators.required],
+      spot: ["", Validators.required],
+      duration: ["", Validators.required]
+    });
 
-  ngOnInit() { }
+    this.patronSvc.getAllParkings();
+    alert("Loading Parking Locations...");
+    this.patronSvc.parkings.forEach(elem => {
+      this.parkings.push(elem);
+      this.parkingsCopy.push(elem);
+    });
 
-  toggleA(){ //distance
-    console.log("toggling a");
-    this.locationA = '101 Lassonde Street';
-    this.priceA = 'Rate: $4.00/ 1/2 Hr'
-    this.distanceA = '0.5 KM Away';
-    this.locationB = '233 Bethune Street';
-    this.priceB = 'Rate: $2.90/ 1/2 Hr';
-    this.distanceB = '0.5 KM Away';
-    this.locationC = '404 York Boulevard';
-    this.priceC = 'Rate: $5.00/ 1/2 Hr';
-    this.distanceC = '0.5 KM Away';
-    this.locationD = '99 Bergeron Lane';
-    this.priceD = 'Rate: $5.00/ 1/2 Hr';
-    this.distanceD = '0.5 KM Away';
-    this.locationE = '502 Schulich Drive';
-    this.priceE = 'Rate: $4.00/ 1/2 Hr';
-    this.distanceE = '0.5 KM Away';
+    this.isBookingView = false;
+    this.user = this.userSvc.getCurrentLoggedInUser();
   }
 
-  toggleB(){ //by price
-    console.log("toggling b");
-    this.locationA = '233 Bethune Street';
-    this.priceA = 'Rate: $2.90/ 1/2 Hr'
-    this.distanceA = '0.5 KM Away';
-    this.locationB = '101 Lassonde Street';
-    this.priceB = 'Rate: $4.00/ 1/2 Hr';
-    this.distanceB = '0.5 KM Away';
-    this.locationC = '502 Schulich Drive';
-    this.priceC = 'Rate: $4.00/ 1/2 Hr';
-    this.distanceC = '0.5 KM Away';
-    this.locationD = '404 York Boulevard';
-    this.priceD = 'Rate: $5.00/ 1/2 Hr';
-    this.distanceD = '0.5 KM Away';
-    this.locationE = '99 Bergeron Lane';
-    this.priceE = 'Rate: $5.00/ 1/2 Hr';
-    this.distanceE = '0.5 KM Away';
+  ngOnInit() {}
 
+  sortByDistance() {
+    this.parkings.sort((a, b) => parseFloat(a.payload.distance) - parseFloat(b.payload.distance));
   }
-  confirmParking($myParam: string = ''): void {
-    const navigationDetails: string[] = ['/'];
-    if($myParam.length) {
-      navigationDetails.push($myParam);
+
+  sortByPrice() {
+    this.parkings.sort((a, b) => parseFloat(a.payload.price) - parseFloat(b.payload.price));
+  }
+
+  searchById(id) {
+    let results;
+    if (id === "") {
+      this.parkings = this.parkingsCopy;
+      return this.parkings;
+    } else {
+      results = this.parkings.filter(elem => {
+        return elem.payload.address.includes(id);
+      });
     }
-    this.router.navigate(navigationDetails);
+
+    this.parkings = results;
+  }
+
+  goBackToParkingView() {
+    this.isBookingView = false;
+  }
+
+  openBookingForm(parking) {
+    this.isBookingView = true;
+    this.prepareParkingSummary(parking);
+  }
+
+  private prepareParkingSummary(parking) {
+    const avail_obj = parking.payload.availabilities
+    const free_obj = parking.payload.freeAvailabilities
+    const lot_obj = parking.payload.lots
+
+    let avail_arr = [];  
+    let free_arr = [];  
+    let lot_arr = [];  
+    
+    Object.keys(avail_obj).map(function(key){  
+        avail_arr.push(avail_obj[key])  
+        return avail_arr;  
+    });  
+    Object.keys(free_obj).map(function(key){  
+      free_arr.push(free_obj[key])  
+      return free_arr;  
+    });  
+    Object.keys(lot_obj).map(function(key){  
+      lot_arr.push(lot_obj[key])  
+      return lot_arr;  
+    });
+
+    this.selectedParking = parking;
+
+    this.selectedParking.payload.availabilities = avail_arr
+    this.selectedParking.payload.freeAvailabilities = free_arr    
+    this.selectedParking.payload.lots = lot_arr
+
+    this.selectedParking.payload.lots.forEach(e => {
+      if (e.isAvailable) {
+        this.spotChoices.push("#" + e.lotNumber + " | Available")
+      } else if (!e.isAvailable && e.bookedBy === '') {
+        this.spotChoices.push("#" + e.lotNumber + " | Closed")
+      } else if (!e.isAvailable && e.bookedBy !== '') {
+        this.spotChoices.push("#" + e.lotNumber + " | Reserved")
+      }
+
+      if (e.isHandicapped) {
+        this.spotChoices[this.spotChoices.length - 1] = this.spotChoices[this.spotChoices.length - 1] + " - Handicapped"
+      }
+    });
+  }
+
+  changeSpot(e) {
+    this.bookingForm.get("spot").setValue(e.target.value, {
+      onlySelf: true,
+    });
+
+    if (this.bookingForm.get("spot").value.includes("Closed")) {
+      alert("The selected parking spot is closed!")
+      this.bookingForm.get("spot").setValue(null)
+    } else if (this.bookingForm.get("spot").value.includes("Reserved")) {
+      alert("The selected parking spot is reserved!")
+      this.bookingForm.get("spot").setValue(null)
+    } else {
+      const indexOfHash = e.target.value.indexOf("#")
+      const indexOfStick = e.target.value.indexOf("|")
+      const lots = this.selectedParking.payload.lots;
+      const lnumber = Number(e.target.value.substring(indexOfHash + 1, indexOfStick - 1));
+      lots.forEach(elem => {
+        if (elem.lotNumber === lnumber) {
+          this.selectedLot = elem;
+        }
+      });
+    }
+  }
+
+  changeDuration(e) {
+    this.bookingForm.get("duration").setValue(e.target.value, {
+      onlySelf: true,
+    });
+  }
+
+  onCheckout(formData) {
+    this.validateBooking(formData); 
+  }
+
+  onConfirm(formData) {
+    try {
+      this.selectedLot.bookedBy = this.user.payload.username
+      this.selectedLot.dateReserved = new Date().getDate();
+      this.selectedLot.timeReserved = new Date().getTime();
+      this.selectedLot.isAvailable= false;
+      this.patronSvc.updateParkingWithBooking(this.selectedParking.key, this.selectedParking.payload)
+      alert("You have successfully booked!")
+    } catch (error) {
+     alert("Patron Booking: " + error) 
+    }
+  }
+
+  private validateBooking(formData) {
+    if (this.user.payload.paymentType === "") {
+      alert("Missing Payment Info! Please add a payment type in the profile page!")
+    } else {
+      this.submittedData = formData;
+    }
   }
 }

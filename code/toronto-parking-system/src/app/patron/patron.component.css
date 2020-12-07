@@ -1,5 +1,49 @@
-.reg-container {
-    padding-top: 10px;
+.parking-list-btns button {
+  margin-right: 10px;
+}
+
+.parking-list {
+  border: 2px solid darkslategrey;
+  border-radius: 5px;
+  padding: 10px;
+  overflow: auto;
+  width: 100%;
+  min-height: 150px;
+  max-height: 450px;
+  height: 10%;
+  display: flex;
+  flex-direction: column;
+}
+
+.parking-list-box {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  justify-content: space-between;
+  border: 1px solid black;
+}
+
+.parking-list-items {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.parking-list-items div {
+  padding: 5px;
+}
+
+.distance-label {
+  border: 1px solid gray;
+  border-radius: 8px;
+  height: auto;
+  text-align: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 35px;
 }
 
 .form-row {
@@ -7,124 +51,37 @@
   flex-direction: row;
 }
 
-.form-row2 {
-    display: flex;
-    flex-direction: row;
-  }
-
 .form-row-element {
   padding-right: 25px;
-  float: right;
-  padding: 6px;
-  border: none;
-  margin-top: 8px;
-  margin-left: 20em;
-  font-size: 17px;
 }
 
-.form-row-element input {
-    height: 30px;
-    width: 1000px;
+.incident-header {
+  margin-bottom: 20px;
 }
 
-.error-field {
-  color: orangered;
-  font-size: 50px;
-  margin-top: -12px;
-  margin-bottom: 5px;
+.list-header {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
-.btn-group button {
-  padding-top: 10px;
+.parking-summary-availabilities {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-#username:hover {
-  cursor: not-allowed;
+.parking-summary-free {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-.btn-group button {
-    background-color: #293eff; /* Green background */
-    border: 1px solid rgb(38, 23, 247); /* Green border */
-    color: white; /* White text */
-    padding: 10px 24px; /* Some padding */
-    cursor: pointer; /* Pointer/hand icon */
-    width: 100%; /* Set a width if needed */
-    display: block; /* Make the buttons appear below each other */
-    height: 50px;
-  }
-  
-  .btn-group button:not(:last-child) {
-    border-bottom: none; /* Prevent double borders */
-  }
-  
-  /* Add a background color on hover */
-  .btn-group button:hover {
-    background-color: #293eff;
-  }
+.parking-summary {
+  padding: 10px;
+  border: 1px solid gray;
+  border-radius: 4px;
+}
 
-  .btn-group-sort button {
-    background-color: #293eff; /* Green background */
-    border: 2px solid rgb(0, 0, 0); /* Green border */
-    color: white; /* White text */
-    padding: 10px 24px; /* Some padding */
-    cursor: pointer; /* Pointer/hand icon */
-    float: left; /* Float the buttons side by side */
-    display: block;
-    width: 50%;
-  }
-  
-  .btn-group-sort button:not(:last-child) {
-    border-right: none; /* Prevent double borders */
-  }
-  
-  /* Clear floats (clearfix hack) */
-  .btn-group-sort:after {
-    content: "";
-    clear: both;
-    display: table;
-  }
-  
-  /* Add a background color on hover */
-  .btn-group-sort button:hover {
-    background-color: #293eff;
-  }
-  
-  .label {
-    color: rgb(17, 0, 255);
-    padding: 8px;
-  }
-
-  table{
-    border: 1px solid #000000;
-    border-collapse: collapse;
-    width: 1125px;
-  }
-  
-  table.center {
-    margin-left: 20em; 
-    margin-right: auto;
-  }
-
-    
-
-    .name {
-        
-        background-color: #ffffff;
-        font-size: 20px;
-        display: block;
-
-    } /* Green */
-    .distance {
-        
-        background-color: #ffffff;
-        font-size: 20px;
-        display: block;
-
-    } /* Green */
-    .rate {
-        
-        background-color: #ffffff;
-        font-size: 20px;
-        display: block;
-
-    } /* Green */
+.btn-group {
+  margin-top: 10px;
+}
