@@ -1,1 +1,204 @@
-<p>patron works!</p>
+<<<<<<< HEAD
+<div class="reg-container" *ngIf="!confirmBooking">
+=======
+<div class="reg-container">
+>>>>>>> c9dfe75abbbe18d30b65fdf88703d76e41e33530
+    <div class="patron-reg-form">
+        <h2 class="reg-header">
+            <strong>Choose A Parking Location</strong>
+        </h2>
+<<<<<<< HEAD
+=======
+        <form [formGroup]="patron" (ngSubmit)="onSubmit(patron.value)">
+>>>>>>> c9dfe75abbbe18d30b65fdf88703d76e41e33530
+            <div class="form-row">
+                <div class="form-row-element">
+                    <label for="address">
+                        Please Enter a valid address:
+                    </label>
+<<<<<<< HEAD
+                    <input 
+                    #searchbox type="text" 
+                    placeholder="Search by Location"
+                    >
+                <button (click)="searchById(searchbox.value)">Search
+                </button>
+                </div>
+            </div>
+    </div>
+
+    <div class="patron-reg-form2">
+=======
+                    <input type="text" placeholder="Search.." name="search">
+                    <button type="submit">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="patron-reg-form2">
+        <form [formGroup]="patronConfirm" (ngSubmit)="onSubmit(patronConfirm.value)">
+>>>>>>> c9dfe75abbbe18d30b65fdf88703d76e41e33530
+            <div class="form-row2">
+                <table class="center">
+                    <div class="btn-group-sort">
+                        <button (click)="toggleA()">Sort By Distance</button>
+                        <button (click)="toggleB()">Sort By Price</button>
+                    </div>
+<<<<<<< HEAD
+                    <div class="btn-group"  *ngIf="showMore">
+                        <h1>{{locationA}}</h1>
+                        <h1>{{priceA}}</h1>
+                        <h1>{{distanceA}}</h1>
+                        <button (click)="confirmParking(locationA)">{{confirmParkingA}}</button>
+                        <h1>{{locationB}}</h1>
+                        <h1>{{priceB}}</h1>
+                        <h1>{{distanceB}}</h1>
+                        <button (click)="confirmParking(locationB)">{{confirmParkingB}}</button>
+                        <h1>{{locationC}}</h1>
+                        <h1>{{priceC}}</h1>
+                        <h1>{{distanceC}}</h1>
+                        <button (click)="confirmParking(locationC)">{{confirmParkingC}}</button>
+                        <h1>{{locationD}}</h1>
+                        <h1>{{priceD}}</h1>
+                        <h1>{{distanceD}}</h1>
+                        <button (click)="confirmParking(locationD)">{{confirmParkingD}}</button>
+                        <h1>{{locationE}}</h1>
+                        <h1>{{priceE}}</h1>
+                        <h1>{{distanceE}}</h1>
+                        <button (click)="confirmParking(locationE)">{{confirmParkingE}}</button>
+                        <h1>{{locationF}}</h1>
+                        <h1>{{priceF}}</h1>
+                        <h1>{{distanceF}}</h1>
+                        <button (click)="confirmParking(locationF)">{{confirmParkingF}}</button>
+                    </div>
+                    <div class="btn-group"  *ngIf="!showMore">
+                        <h1>{{locationA}}</h1>
+                        <h1>{{priceA}}</h1>
+                        <h1>{{distanceA}}</h1>
+                        <button (click)="confirmParking(locationA)">{{confirmParkingA}}</button>
+                    </div>  
+                </table>
+            </div>
+    </div>
+</div>
+<div class="reg-container" *ngIf="confirmBooking">
+    <div class="patron-reg-form2">
+        <h2 class="reg-header">
+            <strong>Confirm Parking Location</strong>
+        </h2>
+        <table class="center">
+            <div style="display:inline" >
+                <div style="float: left; width: 100%;">
+                    <label style="font-size:15px;">Parking Lot #{{parkingLot}}</label>
+                </div>
+            </div>
+            <div style="display:inline" >
+                <div style="float: left; width: 100%;">
+                    <label style="font-size:15px;">Location: {{confirmLocation}}<br></label>
+                </div>
+                
+            </div>
+            <div style="display:inline" >
+                <div style="float: left; width: 25%;">
+                    <label style="font-size:15px;">{{paidStartD}} - {{paidEndD}}</label>
+                </div>
+                <div style="float: left; width: 25%;">
+                    <label style="font-size:15px;">{{paidStartT}} - {{paidEndT}}</label>
+                </div>
+                <div style="float: left; width: 25%;">
+                    <label style="font-size:15px;">3 Hour Max</label>
+                </div>
+                <div style="float: left; width: 25%;">
+                    <label style="font-size:15px;">(PAID)<br></label>
+                </div>
+                <br>
+            </div>
+            <div style="display:inline" >
+                <div style="float: left; width: 25%;">
+                    <label style="font-size:15px;">{{freeStartD}} - {{freeStartD}}</label>
+                </div>
+                <div style="float: left; width: 25%;">
+                    <label style="font-size:15px;">{{freeStartT}} - {{freeEndT}}</label>
+                </div>
+                <div style="float: left; width: 25%;">
+                    <label style="font-size:15px;">3 Hour Max</label>
+                </div>
+                <div style="float: left; width: 25%;">
+                    <label style="font-size:15px;">(FREE)<br></label>
+                </div>
+                <br>
+            </div>
+        
+            <h1 style="font-size:25px;"><br><br>Please select the date and time you would like to reserve:</h1>
+            <div style="display: block;">
+                <input type="date" id="start" name="trip-start" width:400px
+                value="2020-12-25"
+                min="2020-12-01" max="2021-12-31">
+
+                <input type="time" id="appt" name="appt" width:200px
+                min="9:00" max="17:00" required>
+            </div>
+            <h1 style="font-size:25px;">Please select an available parking spot below:</h1>
+            <div style="display: block;">
+                <select name="carLots" id="lots">
+                    <option value="volvo">Volvo</option>
+                    <option value="saab">Saab</option>
+                    <option value="mercedes">Mercedes</option>
+                    <option value="audi">Audi</option>
+                </select>
+            </div>
+            <h1 style="font-size:25px;">Please select how long you would like to reserve this parking spot for:</h1>
+            <div class="select" style="display: block;">
+                <select name="search_categories" id="search_categories">
+                    <option value="30mins">30 Minutes</option>
+                    <option value="1hour">1 Hour</option>
+                    <option value="2hour">2 Hours</option>
+                    <option value="3hour">3 Hours (Max)</option>
+                  </select>
+            </div>
+            <br>
+            <table class="center1">
+                <label style="font-size:25px;">hello world</label>
+            </table>
+            <br>
+            <div class="btn-toolbar" style="display: inline-block;">
+                <button style="margin-left:360px;height: 75px; width: 200px;" (click)="completeParking()">Confirm Parking</button>
+
+                <button style="margin-left:30px;height: 75px;width: 200px;" (click)="clearParking()">Clear Parking</button>
+            </div> 
+
+        </table>
+    </div>
+
+</div>
+=======
+                    <div class="btn-group">
+                        <h1>{{locationA}}</h1>
+                        <h1>{{priceA}}</h1>
+                        <h1>{{distanceA}}</h1>
+                        <button (click)="confirmParking()">Confirm Parking</button>
+                        <h1>{{locationB}}</h1>
+                        <h1>{{priceB}}</h1>
+                        <h1>{{distanceB}}</h1>
+                        <button (click)="confirmParking()">Confirm Parking</button>
+                        <h1>{{locationC}}</h1>
+                        <h1>{{priceC}}</h1>
+                        <h1>{{distanceC}}</h1>
+                        <button (click)="confirmParking()">Confirm Parking</button>
+                        <h1>{{locationD}}</h1>
+                        <h1>{{priceD}}</h1>
+                        <h1>{{distanceD}}</h1>
+                        <button (click)="confirmParking()">Confirm Parking</button>
+                        <h1>{{locationE}}</h1>
+                        <h1>{{priceE}}</h1>
+                        <h1>{{distanceE}}</h1>
+                        <button (click)="confirmParking()">Confirm Parking</button>
+                    </div>
+                </table>
+            </div>
+        </form>
+    </div>
+</div>
+>>>>>>> c9dfe75abbbe18d30b65fdf88703d76e41e33530
+
