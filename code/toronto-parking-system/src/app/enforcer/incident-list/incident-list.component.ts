@@ -143,5 +143,13 @@ export class IncidentListComponent implements OnInit {
     this.incidentForm.get("summary").setValue(selectedIncident.payload.summary)
     this.incidentForm.get("date").setValue(selectedIncident.payload.date)
     this.incidentForm.get("time").setValue(selectedIncident.payload.time)
+    this.incidentForm.get("incidentId").disable();
+    this.incidentForm.get("username").disable();
+    this.incidentForm.get("lot").disable();
+    this.incidentForm.get("spot").disable();
+    this.incidentForm.get("location").disable();
+    this.incidentForm.get("summary").disable();
+    this.incidentForm.get("date").disable();
+    this.incidentForm.get("time").disable();
   }
 }

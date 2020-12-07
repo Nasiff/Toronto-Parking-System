@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from '@angular/fire/database';
 import { Router } from '@angular/router';
-import { EnforcerRegistration } from '../register/EnforcerRegistration';
-import { PatronRegistration } from '../register/PatronRegistration';
+// import { EnforcerRegistration } from '../register/EnforcerRegistration';
+// import { PatronRegistration } from '../register/PatronRegistration';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   patronPath = "/patrons"
-  patronRef: AngularFireList<PatronRegistration> = null;
+  patronRef: AngularFireList<any> = null;
   patrons = [];
 
   enforcerPath = "/enforcers"
-  enforcerRef: AngularFireList<EnforcerRegistration> = null;
+  enforcerRef: AngularFireList<any> = null;
   enforcers = [];
 
   constructor(
@@ -129,7 +129,7 @@ export class UserService {
    * 
    * @param formData 
    */
-  addPatron(formData: PatronRegistration) {
+  addPatron(formData) {
     this.validatePatronCreate(formData);
 
     this.patronRef.push(formData);
@@ -166,7 +166,7 @@ export class UserService {
    * 
    * @param formData 
    */
-  addEnforcer(formData: EnforcerRegistration) {
+  addEnforcer(formData) {
     this.validateWithEnforcerDB(formData);
 
     this.enforcerRef.push(formData)
@@ -202,11 +202,11 @@ export class UserService {
    * 
    * @param formData 
    */
-  private validatePatronCreate(formData: PatronRegistration) {
-    this.patrons.forEach((element: PatronRegistration) => {
-      if (element.email == formData.email) {
+  private validatePatronCreate(formData) {
+    this.patrons.forEach((element) => {
+      if (element.payload.email == formData.email) {
         throw new Error("Email already exists")
-      } else if (element.username == formData.username) {
+      } else if (element.payload.username == formData.username) {
         throw new Error("Username already exists")
       }
     });
@@ -218,13 +218,13 @@ export class UserService {
    * 
    * @param formData 
    */
-  private validateWithEnforcerDB(formData: EnforcerRegistration) {
-    this.enforcers.forEach((element: EnforcerRegistration) => {
-      if (element.email == formData.email) {
+  private validateWithEnforcerDB(formData) {
+    this.enforcers.forEach((element) => {
+      if (element.payload.email == formData.email) {
         throw new Error("Email already exists")
-      } else if (element.username == formData.username) {
+      } else if (element.payload.username == formData.username) {
         throw new Error("Username already exists")
-      } else if (element.badge == formData.badge) {
+      } else if (element.payload.badge == formData.badge) {
         throw new Error("Badge already exists")
       }
     });
