@@ -11,10 +11,10 @@ import { UserService } from '../services/user.service';
 })
 export class PatronComponent implements OnInit {
   parkings = [];
-  parkingsCopy = [];
   bookingForm: FormGroup;
   isBookingView;
 
+  searchRes;
   selectedParking;
   selectedLot;
 
@@ -40,7 +40,6 @@ export class PatronComponent implements OnInit {
     alert("Loading Parking Locations...");
     this.patronSvc.parkings.forEach(elem => {
       this.parkings.push(elem);
-      this.parkingsCopy.push(elem);
     });
 
     this.isBookingView = false;
@@ -55,20 +54,6 @@ export class PatronComponent implements OnInit {
 
   sortByPrice() {
     this.parkings.sort((a, b) => parseFloat(a.payload.price) - parseFloat(b.payload.price));
-  }
-
-  searchById(id) {
-    let results;
-    if (id === "") {
-      this.parkings = this.parkingsCopy;
-      return this.parkings;
-    } else {
-      results = this.parkings.filter(elem => {
-        return elem.payload.address.includes(id);
-      });
-    }
-
-    this.parkings = results;
   }
 
   goBackToParkingView() {
@@ -164,7 +149,7 @@ export class PatronComponent implements OnInit {
       this.selectedLot.timeReserved = new Date().getTime();
       this.selectedLot.isAvailable= false;
       this.patronSvc.updateParkingWithBooking(this.selectedParking.key, this.selectedParking.payload)
-      alert("You have successfully booked!")
+      alert("You have successfully booked! Please check your email for details")
     } catch (error) {
      alert("Patron Booking: " + error) 
     }
@@ -174,7 +159,30 @@ export class PatronComponent implements OnInit {
     if (this.user.payload.paymentType === "") {
       alert("Missing Payment Info! Please add a payment type in the profile page!")
     } else {
+      this.calculatePayment(formData);
       this.submittedData = formData;
+    }
+  }
+
+  private calculatePayment(formData) {
+    const parkingCost = this.selectedParking.payload.price;
+
+    if(formData.duration === this.durationChoices[0]) {
+      formData.price = 0.5 * parkingCost;
+      formData.tax = formData.price * 0.1
+      formData.total = formData.price + formData.tax
+    } else if (formData.duration === this.durationChoices[1]) {
+      formData.price = 1 * parkingCost;
+      formData.tax = formData.price * 0.1
+      formData.total = formData.price + formData.tax
+    } else if (formData.duration === this.durationChoices[2]) {
+      formData.price = 2 * parkingCost;
+      formData.tax = formData.price * 0.1
+      formData.total = formData.price + formData.tax
+    } else {
+      formData.price = 3 * parkingCost;
+      formData.tax = formData.price * 0.1
+      formData.total = formData.price + formData.tax
     }
   }
 }

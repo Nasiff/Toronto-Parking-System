@@ -55,10 +55,12 @@ export class EnforcerComponent implements OnInit {
 
 
   private compareStrings(a: String, b: String) {
-    a = a.toLowerCase();
-    b = b.toLowerCase();
+    // console.log(a, b);
+    // a = a.toLowerCase();
+    // b = b.toLowerCase();
   
-    return (a < b) ? -1 : (a > b) ? 1 : 0;
+    // return (a < b) ? -1 : (a > b) ? 1 : 0;
+    return 1;
   }
 
   isSafe(){
@@ -91,19 +93,31 @@ export class EnforcerComponent implements OnInit {
     let avail_arr = [];  
     let free_arr = [];  
     let lot_arr = [];  
-    
-    Object.keys(avail_obj).map(function(key){  
-        avail_arr.push(avail_obj[key])  
-        return avail_arr;  
-    });  
-    Object.keys(free_obj).map(function(key){  
-      free_arr.push(free_obj[key])  
-      return free_arr;  
-    });  
-    Object.keys(lot_obj).map(function(key){  
-      lot_arr.push(lot_obj[key])  
-      return lot_arr;  
-    });  
+
+    console.log(avail_obj);
+    console.log(free_obj);
+    console.log(lot_obj);
+
+    if (avail_obj) {
+      Object.keys(avail_obj).map(function(key){  
+          avail_arr.push(avail_obj[key])  
+          return avail_arr;  
+      });  
+    }
+
+    if (free_obj) {
+      Object.keys(free_obj).map(function(key){  
+        free_arr.push(free_obj[key])  
+        return free_arr;  
+      });  
+    }
+
+    if (lot_obj) {
+      Object.keys(lot_obj).map(function(key){  
+        lot_arr.push(lot_obj[key])  
+        return lot_arr;  
+      });  
+    }
     
     this.selectedParking = park;
     this.selectedParking.availabilities = avail_arr
@@ -280,6 +294,8 @@ export class EnforcerComponent implements OnInit {
     this.prepChanges(changes)
     
     this.enfServ
+
+    alert("Edit successful.")
   }
 
   prepChanges(changes){

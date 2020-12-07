@@ -21,19 +21,20 @@
       *ngFor="let park of parkings | filter:searchRes"
 
     >
-    
-        <div 
-            class="parking-list-items"
-        >
+    <div class="parking-list-box">
+        <div class="parking-list-items">
           <p>Distance:</p> <p>{{ park.payload.distance }}</p>
           <p>Address:</p> <p>{{ park.payload.address }}</p>
           <p>Is Open:</p> <p>{{ park.payload.isOpen}}</p>
-          <p>Capacity:</p> <p>{{ park.payload.lots.size}}</p>
-          <p>Lots:</p> <button (click)="openLotDetails(park.payload.lots)">View Lots</button>
+          <p>Capacity:</p> <p>{{ park.payload.lots.length}}</p>
+          <!-- <p>Lots:</p> <button (click)="openLotDetails(park.payload.lots)">View Lots</button> -->
           <p>ID:</p> <p>{{ park.payload.parkingId }}</p>
           <p>Price:</p> <p>{{ park.payload.price }}</p>
-          <p>Edit:</p> <button (click)="openParkingEditor(park)">Edit</button>
+          <!-- <p>Edit:</p> <button (click)="openParkingEditor(park)">Edit</button> -->
         </div>
+        <button (click)="openLotDetails(park.payload.lots)">View Lots</button>
+        <button (click)="openParkingEditor(park)">Edit</button>
+      </div>
     </div>
   </div>
 
@@ -48,13 +49,13 @@
           <div 
               class="parking-list-items"
           >
-            <p>Booker:</p> <p>{{ (compareStrings(l.bookedBy, "")==0)?'None':l.bookedBy}}</p>
-            <p>Date Reserved:</p> <p>{{ (compareStrings(l.dateReserved, "")==0)?'None':l.dateReserved}}</p>
-            <p>Duration:</p> <p>{{ (compareStrings(l.duration, "")==0)?'None':l.duration}}</p>
+            <p>Booker:</p> <p>{{l.bookedBy}}</p>
+            <p>Date Reserved:</p> <p>{{ l.dateReserved}}</p>
+            <p>Duration:</p> <p>{{ l.duration}}</p>
             <p>Is Available?:</p>  <p>{{ l.isAvailable }}</p>
             <p>Is Handicapped?:</p> <p>{{ l.isHandicapped }}</p>
             <p>Lot Number:</p> <p>{{ l.lotNumber }}</p>
-            <p>Time Reserved:</p> <p>{{ (compareStrings(l.timeReserved, "")==0)?'None':l.timeReserved}}</p>
+            <p>Time Reserved:</p> <p>{{l.timeReserved}}</p>
           </div>
       </div>
   </div>
