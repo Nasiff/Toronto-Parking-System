@@ -127,6 +127,16 @@ export class EnforcerComponent implements OnInit {
     this.setFormFields(this.selectedParking);
   }
 
+  toggleParkingLotStatus(parking) {
+    if (parking.payload.isOpen == true) {
+      parking.payload.isOpen = false;
+    } else {
+      parking.payload.isOpen = true;
+    }
+
+    this.enfServ.updateParking(parking.key, parking.payload)
+  }
+
   goToParkingListView() {
     this.view = 0;
     this.selectedParking = null;

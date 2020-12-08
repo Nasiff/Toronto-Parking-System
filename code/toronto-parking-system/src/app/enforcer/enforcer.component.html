@@ -26,12 +26,13 @@
           <p>Distance:</p> <p>{{ park.payload.distance }}</p>
           <p>Address:</p> <p>{{ park.payload.address }}</p>
           <p>Is Open:</p> <p>{{ park.payload.isOpen}}</p>
-          <p>Capacity:</p> <p>{{ park.payload.lots.length}}</p>
+          <!-- <p>Capacity:</p> <p>{{ park.payload.lots.length}}</p> -->
           <!-- <p>Lots:</p> <button (click)="openLotDetails(park.payload.lots)">View Lots</button> -->
           <p>ID:</p> <p>{{ park.payload.parkingId }}</p>
-          <p>Price:</p> <p>{{ park.payload.price }}</p>
+          <p>Price:</p> <p>{{ park.payload.price | currency }}</p>
           <!-- <p>Edit:</p> <button (click)="openParkingEditor(park)">Edit</button> -->
         </div>
+        <button (click)="toggleParkingLotStatus(park)">Open/Close</button>
         <button (click)="openLotDetails(park.payload.lots)">View Lots</button>
         <button (click)="openParkingEditor(park)">Edit</button>
       </div>
