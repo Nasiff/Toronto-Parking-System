@@ -14,3 +14,7 @@ The team consists of Nasif, Tyler, Kyle, Hassan, Ramein & Risheed
 4) Go into the `environment.ts` file and add in your own firebase config that you can get by creating your own project on firebase
 
 4) Run `ng serve --open` to start the app.
+
+## Link to our Demo
+
+https://youtu.be/Gl0VHCl1GZQ
